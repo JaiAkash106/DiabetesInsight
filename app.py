@@ -2,6 +2,7 @@
 
 import os
 from pathlib import Path
+from urllib.parse import quote
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -14,6 +15,22 @@ DATA_PATH = os.getenv("DATA_PATH", "data/diabetes.csv")
 MODEL_PATH = os.getenv("MODEL_PATH", "models/best_model.joblib")
 TARGET_COL = os.getenv("TARGET_COL", "Outcome")
 USERS_CSV_PATH = os.getenv("USERS_CSV_PATH", "data/users.csv")
+
+DI_FAVICON_SVG = """
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
+  <defs>
+    <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#2563eb'/>
+      <stop offset='100%' stop-color='#1d4ed8'/>
+    </linearGradient>
+  </defs>
+  <rect width='64' height='64' rx='14' fill='url(#g)'/>
+  <text x='50%' y='55%' text-anchor='middle'
+        font-family='Segoe UI, Arial, sans-serif'
+        font-size='28' font-weight='700' fill='white'>DI</text>
+</svg>
+"""
+DI_FAVICON_URI = f"data:image/svg+xml,{quote(DI_FAVICON_SVG)}"
 
 # Expected input fields for UI
 FEATURES = {
@@ -40,7 +57,7 @@ FEATURES = {
 }
 
 
-st.set_page_config(page_title="Diabetes Risk Predictor", layout="centered")
+st.set_page_config(page_title="Diabetes Risk Predictor", page_icon=DI_FAVICON_URI, layout="centered")
 ensure_users_csv(USERS_CSV_PATH)
 
 
@@ -331,7 +348,7 @@ def _show_login() -> None:
 
     st.markdown("<div class='login-panel'>", unsafe_allow_html=True)
     st.markdown("<h1 class='login-title'>Diabetes Risk Predictor</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='login-subtitle'>Create your profile to continue</p>", unsafe_allow_html=True)
+    st.markdown("<p class='login-subtitle'>Enter your name to continue further</p>", unsafe_allow_html=True)
     with st.form("login_form"):
         name = st.text_input("Name", placeholder="Enter your full name", label_visibility="collapsed").strip()
         submitted = st.form_submit_button("Continue", use_container_width=True)
