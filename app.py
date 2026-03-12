@@ -99,6 +99,11 @@ THEMES = {
         "card": "rgba(255, 255, 255, 0.92)",
         "text": "#0f172a",
         "muted": "#4b5563",
+        "heading": "#0b1f3a",
+        "card_text": "#0f172a",
+        "dialog_surface": "#f8fcfb",
+        "dialog_text": "#0b1f3a",
+        "dialog_muted": "#475569",
         "accent": "#0f766e",
         "accent_dark": "#155e75",
         "accent_soft": "#ccfbf1",
@@ -111,13 +116,18 @@ THEMES = {
     "Dark": {
         "bg_1": "#06131f",
         "bg_2": "#0b2233",
-        "card": "rgba(9, 23, 36, 0.86)",
-        "text": "#e2e8f0",
-        "muted": "#94a3b8",
+        "card": "rgba(8, 24, 39, 0.92)",
+        "text": "#f8fafc",
+        "muted": "#cbd5e1",
+        "heading": "#ffffff",
+        "card_text": "#f8fafc",
+        "dialog_surface": "#f4f8f7",
+        "dialog_text": "#081225",
+        "dialog_muted": "#64748b",
         "accent": "#22c55e",
-        "accent_dark": "#0891b2",
+        "accent_dark": "#67e8f9",
         "accent_soft": "rgba(34, 197, 94, 0.14)",
-        "border": "rgba(148, 163, 184, 0.16)",
+        "border": "rgba(148, 163, 184, 0.22)",
         "warning": "#f59e0b",
         "danger": "#f87171",
         "success": "#4ade80",
@@ -175,6 +185,11 @@ def _inject_global_styles() -> None:
             --card: __CARD__;
             --text: __TEXT__;
             --muted: __MUTED__;
+            --heading: __HEADING__;
+            --card-text: __CARD_TEXT__;
+            --dialog-surface: __DIALOG_SURFACE__;
+            --dialog-text: __DIALOG_TEXT__;
+            --dialog-muted: __DIALOG_MUTED__;
             --accent: __ACCENT__;
             --accent-dark: __ACCENT_DARK__;
             --accent-soft: __ACCENT_SOFT__;
@@ -203,7 +218,7 @@ def _inject_global_styles() -> None:
         }
 
         h1, h2, h3 {
-            color: var(--text) !important;
+            color: var(--heading) !important;
             letter-spacing: -0.02em;
         }
 
@@ -216,6 +231,7 @@ def _inject_global_styles() -> None:
         .metric-card,
         .login-card {
             background: var(--card);
+            color: var(--card-text);
             border: 1px solid var(--border);
             border-radius: 24px;
             box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
@@ -238,6 +254,7 @@ def _inject_global_styles() -> None:
         }
 
         .metric-value {
+            color: var(--heading);
             font-size: 1.65rem;
             font-weight: 800;
             line-height: 1.1;
@@ -307,9 +324,11 @@ def _inject_global_styles() -> None:
         }
 
         .login-title {
+            color: var(--heading);
             font-size: 2.4rem;
             font-weight: 900;
             margin-bottom: 0.45rem;
+            text-shadow: 0 2px 18px rgba(15, 23, 42, 0.18);
         }
 
         .login-copy {
@@ -413,7 +432,13 @@ def _inject_global_styles() -> None:
             border-radius: 24px !important;
             border: 1px solid rgba(15, 118, 110, 0.2) !important;
             padding: 1.5rem !important;
+            color: var(--dialog-text) !important;
             background: __DIALOG_BG__ !important;
+            box-shadow: 0 30px 90px rgba(2, 6, 23, 0.4) !important;
+        }
+
+        div[data-testid="stDialogContent"] * {
+            color: inherit;
         }
 
         .result-shell {
@@ -421,17 +446,19 @@ def _inject_global_styles() -> None:
         }
 
         .result-headline {
+            color: var(--dialog-text) !important;
             font-size: 1.8rem;
             font-weight: 900;
             margin-bottom: 0.2rem;
         }
 
         .result-copy {
-            color: var(--muted);
+            color: var(--dialog-muted) !important;
             margin-bottom: 1rem;
         }
 
         .result-score {
+            color: var(--dialog-text) !important;
             font-size: 3rem;
             font-weight: 900;
             line-height: 1;
@@ -487,6 +514,11 @@ def _inject_global_styles() -> None:
         .replace("__CARD__", theme["card"])
         .replace("__TEXT__", theme["text"])
         .replace("__MUTED__", theme["muted"])
+        .replace("__HEADING__", theme["heading"])
+        .replace("__CARD_TEXT__", theme["card_text"])
+        .replace("__DIALOG_SURFACE__", theme["dialog_surface"])
+        .replace("__DIALOG_TEXT__", theme["dialog_text"])
+        .replace("__DIALOG_MUTED__", theme["dialog_muted"])
         .replace("__ACCENT__", theme["accent"])
         .replace("__ACCENT_DARK__", theme["accent_dark"])
         .replace("__ACCENT_SOFT__", theme["accent_soft"])
