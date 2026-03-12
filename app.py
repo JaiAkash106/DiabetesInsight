@@ -226,11 +226,6 @@ def _inject_global_styles() -> None:
             margin-bottom: 1rem;
         }
 
-        .section-card {
-            padding: 1.25rem 1.25rem 0.5rem 1.25rem;
-            margin-bottom: 1rem;
-        }
-
         .metric-card {
             padding: 1rem 1.25rem;
             min-height: 120px;
@@ -259,6 +254,10 @@ def _inject_global_styles() -> None:
             align-items: center;
             justify-content: space-between;
             margin-bottom: 0.35rem;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: color-mix(in srgb, var(--card) 88%, transparent);
         }
 
         .section-title h3 {
@@ -278,7 +277,7 @@ def _inject_global_styles() -> None:
         .support-text {
             color: var(--muted);
             font-size: 0.95rem;
-            margin-bottom: 1.2rem;
+            margin: 0.85rem 0 1.2rem 0;
         }
 
         .login-wrap {
@@ -475,7 +474,6 @@ def _inject_global_styles() -> None:
             }
 
             .hero-card,
-            .section-card,
             .metric-card,
             .login-card {
                 border-radius: 20px;
@@ -639,7 +637,6 @@ def _render_prediction_form(model_ready: bool) -> None:
     values = dict(st.session_state.form_values)
     with st.form("prediction_form", clear_on_submit=False):
         for section_name, fields in FIELD_GROUPS.items():
-            st.markdown("<div class='section-card'>", unsafe_allow_html=True)
             st.markdown(
                 f"""
                 <div class="section-title">
@@ -666,8 +663,7 @@ def _render_prediction_form(model_ready: bool) -> None:
                         values[field["key"]] = 1 if response == "Yes" else 0
                     else:
                         _render_number_field(field, values)
-
-            st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
         st.session_state.form_values = values
         submitted = st.form_submit_button(
