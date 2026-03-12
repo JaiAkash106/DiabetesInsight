@@ -425,10 +425,35 @@ def _inject_global_styles() -> None:
             min-height: 2.9rem !important;
         }
 
-        .stButton > button *,
-        .stFormSubmitButton > button * {
-            color: #000000 !important;
-            font-weight: 800 !important;
+        .stButton > button p,
+        .stButton > button span,
+        .stFormSubmitButton > button p,
+        .stFormSubmitButton > button span {
+            color: inherit !important;
+            font-weight: inherit !important;
+        }
+
+        .stButton > button svg,
+        .stFormSubmitButton > button svg {
+            color: inherit !important;
+            fill: currentColor !important;
+            stroke: currentColor !important;
+        }
+
+        .stButton > button svg path,
+        .stButton > button svg circle,
+        .stButton > button svg rect,
+        .stButton > button svg line,
+        .stButton > button svg polyline,
+        .stButton > button svg polygon,
+        .stFormSubmitButton > button svg path,
+        .stFormSubmitButton > button svg circle,
+        .stFormSubmitButton > button svg rect,
+        .stFormSubmitButton > button svg line,
+        .stFormSubmitButton > button svg polyline,
+        .stFormSubmitButton > button svg polygon {
+            fill: currentColor !important;
+            stroke: currentColor !important;
         }
 
         .stButton > button[kind="primary"],
@@ -438,22 +463,10 @@ def _inject_global_styles() -> None:
             box-shadow: 0 14px 34px rgba(15,118,110,0.22);
         }
 
-        .stButton > button[kind="primary"] *,
-        .stFormSubmitButton > button[kind="primary"] * {
-            color: #000000 !important;
-            font-weight: 800 !important;
-        }
-
         .stButton > button:not([kind="primary"]) {
             background: #ffffff !important;
             color: #000000 !important;
             border-color: rgba(15, 118, 110, 0.25) !important;
-        }
-
-        .stButton > button:not([kind="primary"]) *,
-        .stFormSubmitButton > button:not([kind="primary"]) * {
-            color: #000000 !important;
-            font-weight: 800 !important;
         }
 
         div[data-testid="stDialog"] {
