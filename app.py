@@ -93,7 +93,7 @@ FIELD_GROUPS = {
 }
 
 THEMES = {
-    "Sea Glass": {
+    "Light": {
         "bg_1": "#f4fbfa",
         "bg_2": "#e6f4f1",
         "card": "rgba(255, 255, 255, 0.92)",
@@ -108,7 +108,7 @@ THEMES = {
         "success": "#166534",
         "dialog_bg": "linear-gradient(180deg, #ffffff, #f0fdfa)",
     },
-    "Midnight": {
+    "Dark": {
         "bg_1": "#06131f",
         "bg_2": "#0b2233",
         "card": "rgba(9, 23, 36, 0.86)",
@@ -122,21 +122,6 @@ THEMES = {
         "danger": "#f87171",
         "success": "#4ade80",
         "dialog_bg": "linear-gradient(180deg, #0f172a, #082f49)",
-    },
-    "Sunrise": {
-        "bg_1": "#fff8f1",
-        "bg_2": "#ffe8d9",
-        "card": "rgba(255, 255, 255, 0.9)",
-        "text": "#312e81",
-        "muted": "#6b7280",
-        "accent": "#ea580c",
-        "accent_dark": "#c2410c",
-        "accent_soft": "#ffedd5",
-        "border": "rgba(234, 88, 12, 0.14)",
-        "warning": "#d97706",
-        "danger": "#dc2626",
-        "success": "#15803d",
-        "dialog_bg": "linear-gradient(180deg, #ffffff, #fff7ed)",
     },
 }
 
@@ -172,7 +157,7 @@ def _init_state() -> None:
         "status_message": None,
         "status_level": "info",
         "form_values": _default_form_values(),
-        "theme_name": "Sea Glass",
+        "theme_name": "Light",
         "login_name_input": "",
     }
     for key, value in defaults.items():
@@ -229,8 +214,7 @@ def _inject_global_styles() -> None:
         .hero-card,
         .section-card,
         .metric-card,
-        .login-card,
-        .login-form-card {
+        .login-card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 24px;
@@ -307,13 +291,7 @@ def _inject_global_styles() -> None:
         .login-card {
             width: min(520px, 100%);
             padding: 2.25rem;
-            margin: 4rem auto 1rem auto;
-        }
-
-        .login-form-card {
-            width: min(520px, 100%);
-            padding: 1.5rem;
-            margin: 0 auto;
+            margin: 4rem auto 0 auto;
         }
 
         .login-kicker {
@@ -349,6 +327,25 @@ def _inject_global_styles() -> None:
             background: #ecfeff;
             color: var(--accent-dark);
             margin-bottom: 0.85rem;
+        }
+
+        [data-testid="column"]:has(.theme-switcher) [role="radiogroup"] {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        [data-testid="column"]:has(.theme-switcher) label[data-baseweb="radio"] {
+            margin: 0 !important;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 0.55rem 0.8rem;
+            justify-content: center;
+        }
+
+        [data-testid="column"]:has(.theme-switcher) label[data-baseweb="radio"] > div:first-child {
+            display: none !important;
         }
 
         div[data-testid="stForm"] {
@@ -480,8 +477,7 @@ def _inject_global_styles() -> None:
             .hero-card,
             .section-card,
             .metric-card,
-            .login-card,
-            .login-form-card {
+            .login-card {
                 border-radius: 20px;
             }
         }
@@ -551,11 +547,14 @@ def _safe_prepare_storage() -> bool:
 
 
 def _render_theme_switcher() -> None:
-    selected = st.selectbox(
+    st.markdown("<div class='theme-switcher'></div>", unsafe_allow_html=True)
+    selected = st.radio(
         "Theme",
         list(THEMES.keys()),
         index=list(THEMES.keys()).index(st.session_state.theme_name),
         key="theme_selector",
+        horizontal=True,
+        label_visibility="visible",
     )
     if selected != st.session_state.theme_name:
         st.session_state.theme_name = selected
@@ -581,10 +580,8 @@ def _show_login() -> None:
             """,
             unsafe_allow_html=True,
         )
-        st.markdown("<div class='login-form-card'>", unsafe_allow_html=True)
         name = st.text_input("Full Name", placeholder="Enter your full name", key="login_name_input").strip()
         submitted = st.button("Continue to Dashboard", type="primary", use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     if submitted:
         if not name:
