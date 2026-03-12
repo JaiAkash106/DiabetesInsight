@@ -179,7 +179,8 @@ def _inject_global_styles() -> None:
         .hero-card,
         .section-card,
         .metric-card,
-        .login-card {
+        .login-card,
+        .login-form-card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 24px;
@@ -256,6 +257,13 @@ def _inject_global_styles() -> None:
         .login-card {
             width: min(520px, 100%);
             padding: 2.25rem;
+            margin: 4rem auto 1rem auto;
+        }
+
+        .login-form-card {
+            width: min(520px, 100%);
+            padding: 1.5rem;
+            margin: 0 auto;
         }
 
         .login-kicker {
@@ -293,15 +301,32 @@ def _inject_global_styles() -> None:
             margin-bottom: 0.85rem;
         }
 
-        div[data-testid="stForm"],
+        div[data-testid="stForm"] {
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        div[data-testid="stForm"] > div {
+            background: transparent !important;
+            border: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+
         div[data-testid="stVerticalBlockBorderWrapper"] {
-            border: none;
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
         }
 
         div[data-testid="stNumberInput"] input,
         div[data-testid="stTextInput"] input {
             border-radius: 14px !important;
             background: #ffffff !important;
+            border: 1px solid rgba(15, 118, 110, 0.16) !important;
         }
 
         div[data-testid="stRadio"] label {
@@ -399,7 +424,8 @@ def _inject_global_styles() -> None:
             .hero-card,
             .section-card,
             .metric-card,
-            .login-card {
+            .login-card,
+            .login-form-card {
                 border-radius: 20px;
             }
         }
@@ -457,6 +483,7 @@ def _show_login() -> None:
         st.markdown(
             """
             <div class="login-card">
+                <div class="status-pill">Secure screening access</div>
                 <div class="login-title">Diabetes Insight</div>
                 <div class="login-copy">
                     Secure access to the screening dashboard. Enter a user name to start a new prediction session.
@@ -465,11 +492,11 @@ def _show_login() -> None:
             """,
             unsafe_allow_html=True,
         )
+        st.markdown("<div class='login-form-card'>", unsafe_allow_html=True)
         with st.form("login_form", clear_on_submit=False):
-            st.markdown("<div class='section-card'>", unsafe_allow_html=True)
             name = st.text_input("Full Name", placeholder="Enter your full name").strip()
             submitted = st.form_submit_button("Continue to Dashboard", type="primary", use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     if submitted:
         if not name:
