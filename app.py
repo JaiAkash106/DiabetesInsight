@@ -92,6 +92,54 @@ FIELD_GROUPS = {
     ],
 }
 
+THEMES = {
+    "Sea Glass": {
+        "bg_1": "#f4fbfa",
+        "bg_2": "#e6f4f1",
+        "card": "rgba(255, 255, 255, 0.92)",
+        "text": "#0f172a",
+        "muted": "#4b5563",
+        "accent": "#0f766e",
+        "accent_dark": "#155e75",
+        "accent_soft": "#ccfbf1",
+        "border": "rgba(15, 118, 110, 0.14)",
+        "warning": "#b45309",
+        "danger": "#b91c1c",
+        "success": "#166534",
+        "dialog_bg": "linear-gradient(180deg, #ffffff, #f0fdfa)",
+    },
+    "Midnight": {
+        "bg_1": "#06131f",
+        "bg_2": "#0b2233",
+        "card": "rgba(9, 23, 36, 0.86)",
+        "text": "#e2e8f0",
+        "muted": "#94a3b8",
+        "accent": "#22c55e",
+        "accent_dark": "#0891b2",
+        "accent_soft": "rgba(34, 197, 94, 0.14)",
+        "border": "rgba(148, 163, 184, 0.16)",
+        "warning": "#f59e0b",
+        "danger": "#f87171",
+        "success": "#4ade80",
+        "dialog_bg": "linear-gradient(180deg, #0f172a, #082f49)",
+    },
+    "Sunrise": {
+        "bg_1": "#fff8f1",
+        "bg_2": "#ffe8d9",
+        "card": "rgba(255, 255, 255, 0.9)",
+        "text": "#312e81",
+        "muted": "#6b7280",
+        "accent": "#ea580c",
+        "accent_dark": "#c2410c",
+        "accent_soft": "#ffedd5",
+        "border": "rgba(234, 88, 12, 0.14)",
+        "warning": "#d97706",
+        "danger": "#dc2626",
+        "success": "#15803d",
+        "dialog_bg": "linear-gradient(180deg, #ffffff, #fff7ed)",
+    },
+}
+
 st.set_page_config(page_title="Diabetes Insight", page_icon=DI_FAVICON_URI, layout="wide")
 
 
@@ -124,6 +172,8 @@ def _init_state() -> None:
         "status_message": None,
         "status_level": "info",
         "form_values": _default_form_values(),
+        "theme_name": "Sea Glass",
+        "login_name_input": "",
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -131,22 +181,23 @@ def _init_state() -> None:
 
 
 def _inject_global_styles() -> None:
+    theme = THEMES[st.session_state.theme_name]
     st.markdown(
-        """
+        f"""
         <style>
         :root {
-            --bg-1: #f4fbfa;
-            --bg-2: #e6f4f1;
-            --card: rgba(255, 255, 255, 0.9);
-            --text: #0f172a;
-            --muted: #4b5563;
-            --accent: #0f766e;
-            --accent-dark: #155e75;
-            --accent-soft: #ccfbf1;
-            --border: rgba(15, 118, 110, 0.14);
-            --warning: #b45309;
-            --danger: #b91c1c;
-            --success: #166534;
+            --bg-1: {theme["bg_1"]};
+            --bg-2: {theme["bg_2"]};
+            --card: {theme["card"]};
+            --text: {theme["text"]};
+            --muted: {theme["muted"]};
+            --accent: {theme["accent"]};
+            --accent-dark: {theme["accent_dark"]};
+            --accent-soft: {theme["accent_soft"]};
+            --border: {theme["border"]};
+            --warning: {theme["warning"]};
+            --danger: {theme["danger"]};
+            --success: {theme["success"]};
         }
 
         .stApp {
@@ -367,7 +418,7 @@ def _inject_global_styles() -> None:
             border-radius: 24px !important;
             border: 1px solid rgba(15, 118, 110, 0.2) !important;
             padding: 1.5rem !important;
-            background: linear-gradient(180deg, #ffffff, #f0fdfa) !important;
+            background: {theme["dialog_bg"]} !important;
         }
 
         .result-shell {
@@ -414,6 +465,12 @@ def _inject_global_styles() -> None:
         .high {
             color: var(--danger);
             background: rgba(185, 28, 28, 0.12);
+        }
+
+        .theme-switch-shell {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 0.75rem;
         }
 
         @media (max-width: 900px) {
@@ -477,7 +534,23 @@ def _safe_prepare_storage() -> bool:
         return False
 
 
+def _render_theme_switcher() -> None:
+    selected = st.selectbox(
+        "Theme",
+        list(THEMES.keys()),
+        index=list(THEMES.keys()).index(st.session_state.theme_name),
+        key="theme_selector",
+    )
+    if selected != st.session_state.theme_name:
+        st.session_state.theme_name = selected
+        st.rerun()
+
+
 def _show_login() -> None:
+    theme_left, theme_mid, theme_right = st.columns([1.2, 1.2, 0.8])
+    with theme_right:
+        _render_theme_switcher()
+
     left, center, right = st.columns([1, 1.3, 1])
     with center:
         st.markdown(
@@ -493,9 +566,8 @@ def _show_login() -> None:
             unsafe_allow_html=True,
         )
         st.markdown("<div class='login-form-card'>", unsafe_allow_html=True)
-        with st.form("login_form", clear_on_submit=False):
-            name = st.text_input("Full Name", placeholder="Enter your full name").strip()
-            submitted = st.form_submit_button("Continue to Dashboard", type="primary", use_container_width=True)
+        name = st.text_input("Full Name", placeholder="Enter your full name", key="login_name_input").strip()
+        submitted = st.button("Continue to Dashboard", type="primary", use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
     if submitted:
@@ -715,7 +787,7 @@ def _show_result_dialog() -> None:
 def _main_app() -> None:
     model_ready, model_message = _model_status()
 
-    left, right = st.columns([5, 1])
+    left, mid, right = st.columns([4.6, 1.4, 1])
     with left:
         st.markdown(
             f"""
@@ -730,6 +802,8 @@ def _main_app() -> None:
             """,
             unsafe_allow_html=True,
         )
+    with mid:
+        _render_theme_switcher()
     with right:
         if st.button("Logout", use_container_width=True):
             for key in ["logged_in", "user_name", "last_result", "show_result", "is_processing", "process_requested", "pending_input"]:
