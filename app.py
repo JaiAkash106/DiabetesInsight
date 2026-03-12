@@ -250,6 +250,16 @@ def _inject_global_styles() -> None:
             min-height: 120px;
         }
 
+        div[data-testid="column"] .metric-card {
+            margin-bottom: 1rem;
+        }
+
+        div[data-testid="stAlert"] {
+            margin-top: 0.25rem;
+            margin-bottom: 1.25rem;
+            border-radius: 16px !important;
+        }
+
         .metric-label {
             color: var(--muted);
             font-size: 0.92rem;
