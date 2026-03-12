@@ -873,18 +873,18 @@ def _main_app() -> None:
     left, mid, right = st.columns([4.6, 1.4, 1])
     with left:
         st.markdown(
-            f"""
-            <div class="hero-card">
-                <div class="status-pill">Production-ready Streamlit workflow</div>
-                <h1 style="margin-bottom:0.4rem;">Diabetes Risk Screening Dashboard</h1>
-                <p class="hero-copy" style="margin-bottom:0.25rem;">
-                    Welcome, <strong>{st.session_state.user_name}</strong>. Complete the structured form to generate a diabetes-risk prediction.
-                </p>
-                <p class="hero-copy" style="margin:0;">This tool supports academic evaluation and should not be used as a medical diagnosis.</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        f"""
+        <div class="hero-card">
+            <h1 style="margin-bottom:0.4rem;">Diabetes Risk Screening Dashboard</h1>
+            <p class="hero-copy" style="margin-bottom:0.25rem;">
+                Welcome, <span style="font-size:1.3rem; font-weight:700;">{st.session_state.user_name}</span>. 
+                Complete the structured form to generate a diabetes-risk prediction.
+            </p>
+            <p class="hero-copy" style="margin:0;">This tool supports academic evaluation and should not be used as a medical diagnosis.</p>
+        </div>
+        """,
+    unsafe_allow_html=True,
+)
     with mid:
         _render_theme_switcher()
     with right:
