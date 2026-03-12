@@ -104,6 +104,7 @@ THEMES = {
         "dialog_surface": "#f8fcfb",
         "dialog_text": "#0b1f3a",
         "dialog_muted": "#475569",
+        "soft_text": "#4b5563",
         "accent": "#0f766e",
         "accent_dark": "#155e75",
         "accent_soft": "#ccfbf1",
@@ -124,6 +125,7 @@ THEMES = {
         "dialog_surface": "#f4f8f7",
         "dialog_text": "#081225",
         "dialog_muted": "#64748b",
+        "soft_text": "#dbe7f3",
         "accent": "#22c55e",
         "accent_dark": "#67e8f9",
         "accent_soft": "rgba(34, 197, 94, 0.14)",
@@ -190,6 +192,7 @@ def _inject_global_styles() -> None:
             --dialog-surface: __DIALOG_SURFACE__;
             --dialog-text: __DIALOG_TEXT__;
             --dialog-muted: __DIALOG_MUTED__;
+            --soft-text: __SOFT_TEXT__;
             --accent: __ACCENT__;
             --accent-dark: __ACCENT_DARK__;
             --accent-soft: __ACCENT_SOFT__;
@@ -250,6 +253,7 @@ def _inject_global_styles() -> None:
         .metric-label {
             color: var(--muted);
             font-size: 0.92rem;
+            font-weight: 700;
             margin-bottom: 0.35rem;
         }
 
@@ -263,6 +267,7 @@ def _inject_global_styles() -> None:
         .metric-subtext {
             color: var(--muted);
             font-size: 0.9rem;
+            font-weight: 500;
             margin-top: 0.45rem;
         }
 
@@ -294,6 +299,7 @@ def _inject_global_styles() -> None:
         .support-text {
             color: var(--muted);
             font-size: 0.95rem;
+            font-weight: 500;
             margin: 0.85rem 0 1.2rem 0;
         }
 
@@ -332,8 +338,16 @@ def _inject_global_styles() -> None:
         }
 
         .login-copy {
-            color: var(--muted);
+            color: var(--soft-text);
+            font-weight: 500;
+            line-height: 1.6;
             margin-bottom: 1.5rem;
+        }
+
+        .hero-copy {
+            color: var(--soft-text);
+            font-weight: 500;
+            line-height: 1.6;
         }
 
         .status-pill {
@@ -441,6 +455,13 @@ def _inject_global_styles() -> None:
             color: inherit;
         }
 
+        div[data-testid="stDialogContent"] [data-testid="stDialogHeader"] *,
+        div[data-testid="stDialogContent"] h1,
+        div[data-testid="stDialogContent"] h2,
+        div[data-testid="stDialogContent"] h3 {
+            color: var(--dialog-text) !important;
+        }
+
         .result-shell {
             padding: 0.25rem;
         }
@@ -455,6 +476,8 @@ def _inject_global_styles() -> None:
         .result-copy {
             color: var(--dialog-muted) !important;
             margin-bottom: 1rem;
+            font-weight: 500;
+            line-height: 1.55;
         }
 
         .result-score {
@@ -519,6 +542,7 @@ def _inject_global_styles() -> None:
         .replace("__DIALOG_SURFACE__", theme["dialog_surface"])
         .replace("__DIALOG_TEXT__", theme["dialog_text"])
         .replace("__DIALOG_MUTED__", theme["dialog_muted"])
+        .replace("__SOFT_TEXT__", theme["soft_text"])
         .replace("__ACCENT__", theme["accent"])
         .replace("__ACCENT_DARK__", theme["accent_dark"])
         .replace("__ACCENT_SOFT__", theme["accent_soft"])
@@ -835,10 +859,10 @@ def _main_app() -> None:
             <div class="hero-card">
                 <div class="status-pill">Production-ready Streamlit workflow</div>
                 <h1 style="margin-bottom:0.4rem;">Diabetes Risk Screening Dashboard</h1>
-                <p style="margin-bottom:0.25rem; color:#4b5563;">
+                <p class="hero-copy" style="margin-bottom:0.25rem;">
                     Welcome, <strong>{st.session_state.user_name}</strong>. Complete the structured form to generate a diabetes-risk prediction.
                 </p>
-                <p style="margin:0; color:#4b5563;">This tool supports academic evaluation and should not be used as a medical diagnosis.</p>
+                <p class="hero-copy" style="margin:0;">This tool supports academic evaluation and should not be used as a medical diagnosis.</p>
             </div>
             """,
             unsafe_allow_html=True,
