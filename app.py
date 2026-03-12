@@ -182,22 +182,21 @@ def _init_state() -> None:
 
 def _inject_global_styles() -> None:
     theme = THEMES[st.session_state.theme_name]
-    st.markdown(
-        f"""
+    css = """
         <style>
         :root {
-            --bg-1: {theme["bg_1"]};
-            --bg-2: {theme["bg_2"]};
-            --card: {theme["card"]};
-            --text: {theme["text"]};
-            --muted: {theme["muted"]};
-            --accent: {theme["accent"]};
-            --accent-dark: {theme["accent_dark"]};
-            --accent-soft: {theme["accent_soft"]};
-            --border: {theme["border"]};
-            --warning: {theme["warning"]};
-            --danger: {theme["danger"]};
-            --success: {theme["success"]};
+            --bg-1: __BG_1__;
+            --bg-2: __BG_2__;
+            --card: __CARD__;
+            --text: __TEXT__;
+            --muted: __MUTED__;
+            --accent: __ACCENT__;
+            --accent-dark: __ACCENT_DARK__;
+            --accent-soft: __ACCENT_SOFT__;
+            --border: __BORDER__;
+            --warning: __WARNING__;
+            --danger: __DANGER__;
+            --success: __SUCCESS__;
         }
 
         .stApp {
@@ -418,7 +417,7 @@ def _inject_global_styles() -> None:
             border-radius: 24px !important;
             border: 1px solid rgba(15, 118, 110, 0.2) !important;
             padding: 1.5rem !important;
-            background: {theme["dialog_bg"]} !important;
+            background: __DIALOG_BG__ !important;
         }
 
         .result-shell {
@@ -487,7 +486,24 @@ def _inject_global_styles() -> None:
             }
         }
         </style>
-        """,
+    """
+    css = (
+        css.replace("__BG_1__", theme["bg_1"])
+        .replace("__BG_2__", theme["bg_2"])
+        .replace("__CARD__", theme["card"])
+        .replace("__TEXT__", theme["text"])
+        .replace("__MUTED__", theme["muted"])
+        .replace("__ACCENT__", theme["accent"])
+        .replace("__ACCENT_DARK__", theme["accent_dark"])
+        .replace("__ACCENT_SOFT__", theme["accent_soft"])
+        .replace("__BORDER__", theme["border"])
+        .replace("__WARNING__", theme["warning"])
+        .replace("__DANGER__", theme["danger"])
+        .replace("__SUCCESS__", theme["success"])
+        .replace("__DIALOG_BG__", theme["dialog_bg"])
+    )
+    st.markdown(
+        css,
         unsafe_allow_html=True,
     )
 
