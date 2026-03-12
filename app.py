@@ -457,7 +457,6 @@ def _show_login() -> None:
         st.markdown(
             """
             <div class="login-card">
-                <div class="login-kicker">Phase 3 Ready</div>
                 <div class="login-title">Diabetes Insight</div>
                 <div class="login-copy">
                     Secure access to the screening dashboard. Enter a user name to start a new prediction session.
