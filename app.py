@@ -425,6 +425,12 @@ def _inject_global_styles() -> None:
             min-height: 2.9rem !important;
         }
 
+        .stButton > button *,
+        .stFormSubmitButton > button * {
+            color: #000000 !important;
+            font-weight: 800 !important;
+        }
+
         .stButton > button[kind="primary"],
         .stFormSubmitButton > button[kind="primary"] {
             background: linear-gradient(135deg, var(--accent), var(--accent-dark)) !important;
@@ -432,10 +438,22 @@ def _inject_global_styles() -> None:
             box-shadow: 0 14px 34px rgba(15,118,110,0.22);
         }
 
+        .stButton > button[kind="primary"] *,
+        .stFormSubmitButton > button[kind="primary"] * {
+            color: #000000 !important;
+            font-weight: 800 !important;
+        }
+
         .stButton > button:not([kind="primary"]) {
             background: #ffffff !important;
             color: #000000 !important;
             border-color: rgba(15, 118, 110, 0.25) !important;
+        }
+
+        .stButton > button:not([kind="primary"]) *,
+        .stFormSubmitButton > button:not([kind="primary"]) * {
+            color: #000000 !important;
+            font-weight: 800 !important;
         }
 
         div[data-testid="stDialog"] {
