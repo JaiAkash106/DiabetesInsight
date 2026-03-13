@@ -161,6 +161,7 @@ def _init_state() -> None:
     defaults = {
         "logged_in": False,
         "user_name": "",
+        "gender": None,
         "last_result": None,
         "show_result": False,
         "is_processing": False,
@@ -676,6 +677,12 @@ def _show_login() -> None:
             unsafe_allow_html=True,
         )
         name = st.text_input("Full Name", placeholder="Enter your full name", key="login_name_input").strip()
+        gender = st.radio(
+            "Gender",
+            ["Male", "Female"],
+            index=0,
+            horizontal=True,
+        )
         submitted = st.button("Continue to Dashboard", type="primary", use_container_width=True)
 
     if submitted:
@@ -697,6 +704,7 @@ def _show_login() -> None:
 
         st.session_state.logged_in = True
         st.session_state.user_name = name
+        st.session_state.gender = gender
         _set_status("Login successful. You can now run a prediction.", "success")
         st.rerun()
 
@@ -748,6 +756,9 @@ def _render_prediction_form(model_ready: bool) -> None:
             columns = st.columns(len(fields))
             for column, field in zip(columns, fields):
                 with column:
+                    if field["key"] == "Pregnancies" and st.session_state.gender == "Male":
+                        values["Pregnancies"] = 0
+                        continue
                     if field.get("type") == "radio":
                         selected = "Yes" if values.get(field["key"], 0) == 1 else "No"
                         response = st.radio(
@@ -805,6 +816,8 @@ def _process_prediction_if_requested() -> None:
 
     progress = st.progress(0, text="Preparing secure prediction request...")
     pending_input = st.session_state.pending_input or {}
+    if st.session_state.gender == "Male":
+        pending_input["Pregnancies"] = 0
     try:
         progress.progress(20, text="Loading the trained model...")
         sleep(0.15)
@@ -900,7 +913,7 @@ def _main_app() -> None:
         <div class="hero-card">
             <h1 style="margin-bottom:0.4rem;">Diabetes Risk Screening Dashboard</h1>
             <p class="hero-copy" style="margin-bottom:0.25rem;">
-                Welcome, <span style="font-size:1.3rem; font-weight:700;">{st.session_state.user_name}</span>. 
+                Welcome, <span style="font-size:1.3rem; font-weight:700;">{st.session_state.user_name}</span> ({st.session_state.gender}). 
                 Complete the structured form to generate a diabetes-risk prediction.
             </p>
             <p class="hero-copy" style="margin:0;">This tool supports academic evaluation and should not be used as a medical diagnosis.</p>
@@ -912,9 +925,10 @@ def _main_app() -> None:
         _render_theme_switcher()
     with right:
         if st.button("Logout", use_container_width=True):
-            for key in ["logged_in", "user_name", "last_result", "show_result", "is_processing", "process_requested", "pending_input"]:
+            for key in ["logged_in", "user_name", "gender", "last_result", "show_result", "is_processing", "process_requested", "pending_input"]:
                 st.session_state[key] = False if key in {"logged_in", "show_result", "is_processing", "process_requested"} else None
             st.session_state.user_name = ""
+            st.session_state.gender = None
             st.session_state.last_result = None
             st.session_state.pending_input = None
             st.session_state.form_values = _default_form_values()
