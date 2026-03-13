@@ -225,17 +225,16 @@ The app reads runtime values from `.env` locally and from platform environment v
 ### Model Loading
 The model is cached with `st.cache_resource` to avoid repeated disk loads and improve hosted performance.
 
-## Screenshots
-```md
-<img width="1919" height="1048" alt="image" src="https://github.com/user-attachments/assets/64548a1a-3a4c-4547-8692-0856d8f79b48" />
-![Login Screen](docs/screenshots/login-screen.png)
+## Application Screenshots
 
-<img width="1915" height="1050" alt="image" src="https://github.com/user-attachments/assets/014eb26d-5592-4ec8-90ce-480e98e4152f" />
-![Prediction Form](docs/screenshots/prediction-form.png)
+### Login Page
+![Login Page](docs/screenshots/Login page.png)
 
-<img width="646" height="751" alt="image" src="https://github.com/user-attachments/assets/08842473-a168-46c5-8057-601bab66f5a8" />
-![Result Dialog](docs/screenshots/result-dialog.png)
-```
+### Prediction Page
+![Prediction Page](docs/screenshots/prediction page.png)
+
+### Result Page
+![Result Page](docs/screenshots/result page.png)
 
 ## Demo Explanation
 
