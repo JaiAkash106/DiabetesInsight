@@ -134,7 +134,7 @@ streamlit run app.py
 ```
 
 The app will open in the browser. The evaluator should be able to:
-- enter a user name
+- enter a user name and gender
 - fill in the health form
 - click `Predict Diabetes Risk`
 - see a spinner, progress indicator, and final risk popup
@@ -226,21 +226,14 @@ The app reads runtime values from `.env` locally and from platform environment v
 The model is cached with `st.cache_resource` to avoid repeated disk loads and improve hosted performance.
 
 ## Screenshots
-
-Add screenshots before submission and place them in a folder like `docs/screenshots/`.
-
-Suggested screenshots:
-- `login-screen.png`
-- `prediction-form.png`
-- `loading-state.png`
-- `result-dialog.png`
-
-Then reference them here:
-
 ```md
+<img width="1919" height="1048" alt="image" src="https://github.com/user-attachments/assets/64548a1a-3a4c-4547-8692-0856d8f79b48" />
 ![Login Screen](docs/screenshots/login-screen.png)
+
+<img width="1915" height="1050" alt="image" src="https://github.com/user-attachments/assets/014eb26d-5592-4ec8-90ce-480e98e4152f" />
 ![Prediction Form](docs/screenshots/prediction-form.png)
-![Loading State](docs/screenshots/loading-state.png)
+
+<img width="646" height="751" alt="image" src="https://github.com/user-attachments/assets/08842473-a168-46c5-8057-601bab66f5a8" />
 ![Result Dialog](docs/screenshots/result-dialog.png)
 ```
 
