@@ -573,6 +573,10 @@ def _inject_global_styles() -> None:
             }
         }
 
+        footer {
+            visibility: hidden !important;
+        }
+
         [data-testid="stToolbar"] {
             display: none !important;
         }
@@ -581,19 +585,11 @@ def _inject_global_styles() -> None:
             display: none !important;
         }
 
-        [data-testid="stStatusWidget"] {
-            display: none !important;
-        }
-
-        [data-testid="stAppDeployButton"] {
-            display: none !important;
-        }
-
-        footer {
-            display: none !important;
-        }
-
         #MainMenu {
+            visibility: hidden !important;
+        }
+
+        button[kind="header"] {
             display: none !important;
         }
         </style>
