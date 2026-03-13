@@ -228,13 +228,13 @@ The model is cached with `st.cache_resource` to avoid repeated disk loads and im
 ## Application Screenshots
 
 ### Login Page
-![Login Page](docs/screenshots/Login_page.png)
+![Login Page](docs/screenshots/Login%20page.png)
 
 ### Prediction Page
-![Prediction Page](docs/screenshots/prediction_page.png)
+![Prediction Page](docs/screenshots/prediction%20page.png)
 
 ### Result Page
-![Result Page](docs/screenshots/Result_page.png)
+![Result Page](docs/screenshots/Result%20page.png)
 
 ## Demo Explanation
 
