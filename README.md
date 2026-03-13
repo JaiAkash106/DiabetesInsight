@@ -1,4 +1,4 @@
-# Diabetes AI
+# Diabetes Insight
 
 Diabetes AI is a Streamlit-based diabetes risk prediction application built for academic evaluation. It keeps the project simple: a Streamlit frontend, a scikit-learn training pipeline, a prediction module, and CSV-based persistence for user sessions and latest prediction records.
 
