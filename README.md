@@ -228,17 +228,17 @@ The model is cached with `st.cache_resource` to avoid repeated disk loads and im
 ## Application Screenshots
 
 ### Login Page
-![Login Page](docs/screenshots/Login%20page.png)
+![Login Page](docs/Screenshots/Login_page.png)
 
 ### Prediction Page
-![Prediction Page](docs/screenshots/prediction%20page.png)
+![Prediction Page](docs/Screenshots/Prediction_page.png)
 
 ### Result Page
-![Result Page](docs/screenshots/Result%20page.png)
+![Result Page](docs/Screenshots/Result%20_page.png)
 
 ## Demo Explanation
 
-A short presentation script is available in [docs/demo_script.md](/c:/Users/JAYA%20PRAKASH%20A/OneDrive/Documents/Mini%20project/diabetes-ai/docs/demo_script.md).
+A short presentation script is available in [docs/demo_script.md](docs/demo_script.md).
 
 ### Short Demo Summary
 1. This project predicts diabetes risk from patient health metrics.
