@@ -727,14 +727,24 @@ def _render_metric(label: str, value: str, subtext: str) -> None:
 def _render_number_field(field: dict, values: dict) -> None:
     current_value = values.get(field["key"], field["value"])
     number_type = "float" if isinstance(field["value"], float) else "int"
+    disabled = False
+    help_text = field["help"]
+
+    if field["key"] == "Pregnancies" and st.session_state.gender == "Male":
+        disabled = True
+        help_text = "Not applicable for male patients"
+        current_value = 0
+        values[field["key"]] = 0
+
     values[field["key"]] = st.number_input(
         field["label"],
         min_value=field["min"],
         max_value=field["max"],
         value=current_value,
         step=field["step"],
-        help=field["help"],
+        help=help_text,
         format="%.2f" if number_type == "float" else "%d",
+        disabled=disabled,
     )
 
 
@@ -756,9 +766,6 @@ def _render_prediction_form(model_ready: bool) -> None:
             columns = st.columns(len(fields))
             for column, field in zip(columns, fields):
                 with column:
-                    if field["key"] == "Pregnancies" and st.session_state.gender == "Male":
-                        values["Pregnancies"] = 0
-                        continue
                     if field.get("type") == "radio":
                         selected = "Yes" if values.get(field["key"], 0) == 1 else "No"
                         response = st.radio(
