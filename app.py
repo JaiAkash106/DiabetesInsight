@@ -572,6 +572,30 @@ def _inject_global_styles() -> None:
                 border-radius: 20px;
             }
         }
+
+        [data-testid="stToolbar"] {
+            display: none !important;
+        }
+
+        [data-testid="stDecoration"] {
+            display: none !important;
+        }
+
+        [data-testid="stStatusWidget"] {
+            display: none !important;
+        }
+
+        [data-testid="stAppDeployButton"] {
+            display: none !important;
+        }
+
+        footer {
+            display: none !important;
+        }
+
+        #MainMenu {
+            display: none !important;
+        }
         </style>
     """
     css = (
