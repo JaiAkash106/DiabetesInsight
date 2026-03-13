@@ -432,7 +432,7 @@ def _inject_global_styles() -> None:
             border-radius: 14px !important;
             border: 1px solid transparent !important;
             font-weight: 800 !important;
-            color: #000000 !important;
+            color: var(--text) !important;
             min-height: 2.9rem !important;
         }
 
@@ -475,9 +475,9 @@ def _inject_global_styles() -> None:
         }
 
         .stButton > button:not([kind="primary"]) {
-            background: #ffffff !important;
-            color: #000000 !important;
-            border-color: rgba(15, 118, 110, 0.25) !important;
+            background: var(--card) !important;
+            color: var(--text) !important;
+            border-color: var(--border) !important;
         }
 
         div[data-testid="stDialog"] {
