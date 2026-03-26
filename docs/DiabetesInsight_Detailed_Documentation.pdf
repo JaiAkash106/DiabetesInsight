@@ -1,0 +1,368 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [ 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R ] /Count 8 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 383 >>
+stream
+BT /F2 26 Tf 1 0 0 1 214 690 Tm (DiabetesInsight) Tj ET
+BT /F2 18 Tf 1 0 0 1 179 650 Tm (Detailed Project Documentation) Tj ET
+BT /F1 15 Tf 1 0 0 1 228 570 Tm (Prepared by: Jai Akash) Tj ET
+BT /F1 15 Tf 1 0 0 1 235 540 Tm (Program: B.Tech AIDS) Tj ET
+BT /F1 15 Tf 1 0 0 1 221 510 Tm (Academic Level: 3rd Year) Tj ET
+BT /F1 12 Tf 1 0 0 1 230 430 Tm (Generated on March 26, 2026) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 3393 >>
+stream
+BT /F2 16 Tf 1 0 0 1 54 750 Tm (1. Executive Summary) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 728 Tm (DiabetesInsight is a machine learning based Streamlit application that estimates) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 712 Tm (diabetes risk from user-provided health indicators. The project combines a clean) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 696 Tm (browser interface, a trained scikit-learn pipeline, and CSV-backed persistence to) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 680 Tm (create a compact academic demonstration of predictive analytics in healthcare.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 654 Tm (The system is designed for project evaluation, local demonstration, and basic) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 638 Tm (cloud deployment. It guides a user from login to prediction, shows a) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 622 Tm (probability-based result, and stores the latest prediction details in a simple) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 606 Tm (tabular file.) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 580 Tm (2. Project Objectives) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 558 Tm (- Predict diabetes risk from commonly used medical and demographic features.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 542 Tm (- Provide a simple and attractive interface that can be used by non-technical) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 526 Tm (evaluators.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 510 Tm (- Compare multiple machine learning models and keep the best one.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 494 Tm (- Store user details and the latest prediction in a lightweight CSV file.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 478 Tm (- Keep the project easy to deploy on platforms such as Streamlit Cloud or) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 462 Tm (Render.) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 436 Tm (3. Problem Statement) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 414 Tm (Early diabetes screening is important because many patients do not recognize) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 398 Tm (warning signs until the disease has already progressed. A lightweight prediction) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 382 Tm (system can help demonstrate how machine learning can support screening by) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 366 Tm (identifying risk patterns from historical health data.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 340 Tm (This project does not replace clinical diagnosis. It is an academic) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 324 Tm (decision-support prototype that shows how data preprocessing, model training,) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 308 Tm (inference, and user-facing presentation can be combined into one application.) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 282 Tm (4. Technology Stack) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 260 Tm (- Frontend and UI: Streamlit) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 244 Tm (- Programming Language: Python) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 228 Tm (- Data Handling: pandas) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 212 Tm (- Machine Learning: scikit-learn) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 196 Tm (- Model Serialization: joblib) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 180 Tm (- Environment Configuration: python-dotenv) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 164 Tm (- Optional API Layer: FastAPI and Uvicorn) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 148 Tm (- Deployment Support: Streamlit Cloud and Render) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 122 Tm (5. Project Structure) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 100 Tm (----------------------------------------) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 86 Tm (diabetes-ai/) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 70 Tm (|-- app.py) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 2854 >>
+stream
+BT /F1 10 Tf 1 0 0 1 54 750 Tm (|-- frontend_app.py) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 736 Tm (|-- requirements.txt) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 722 Tm (|-- models/) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 708 Tm (| `-- best_model.joblib) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 694 Tm (|-- data/) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 680 Tm (| |-- diabetes.csv) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 666 Tm (| `-- users.csv) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 652 Tm (|-- docs/) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 638 Tm (| |-- detailed_documentation.md) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 624 Tm (| |-- DiabetesInsight_Detailed_Documentation.pdf) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 610 Tm (| |-- SRS.md) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 596 Tm (| |-- schema.md) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 582 Tm (| `-- Screenshots/) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 568 Tm (`-- src/) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 552 Tm (|-- config.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 536 Tm (|-- preprocessing.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 520 Tm (|-- predict.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 504 Tm (|-- train_model.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 488 Tm (|-- user_store.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 472 Tm (|-- auth.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 456 Tm (|-- db.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 440 Tm (|-- api.py) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 424 Tm (`-- services/) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 408 Tm (----------------------------------------) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 384 Tm (6. System Architecture) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 362 Tm (The system follows a simple flow:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 336 Tm (1. The user opens the Streamlit application.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 320 Tm (2. The login screen captures a unique name and gender.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 304 Tm (3. The main dashboard collects structured health inputs.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 288 Tm (4. The prediction module validates the input and loads the trained model.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 272 Tm (5. The model generates a label and probability score.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 256 Tm (6. The result dialog shows the risk category and a short recommendation.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 240 Tm (7. The latest user prediction is written to `data/users.csv`.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 214 Tm (Architecture view:) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 188 Tm (----------------------------------------) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 174 Tm (User) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 158 Tm (-> Streamlit UI \(app.py\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 142 Tm (-> Input Validation \(src/predict.py\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 126 Tm (-> Trained Model \(models/best_model.joblib\)) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 110 Tm (-> User Storage \(src/user_store.py -> data/users.csv\)) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 94 Tm (----------------------------------------) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 70 Tm (7. User Interface Flow) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 2555 >>
+stream
+BT /F2 13 Tf 1 0 0 1 54 750 Tm (7.1 Login Page) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 732 Tm (The login page asks for:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 716 Tm (- Full Name) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 700 Tm (- Gender) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 674 Tm (The application prevents duplicate user creation by checking `data/users.csv`. If) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 658 Tm (the name already exists, the user is shown a warning message.) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 632 Tm (7.2 Prediction Dashboard) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 614 Tm (The dashboard groups input fields into logical sections:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 598 Tm (- Personal Profile) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 582 Tm (- Vital Signs) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 566 Tm (- Metabolic Markers) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 540 Tm (Inputs collected by the application:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 524 Tm (- Pregnancies) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 508 Tm (- Glucose) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 492 Tm (- BloodPressure) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 476 Tm (- SkinThickness) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 460 Tm (- Insulin) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 444 Tm (- BMI) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 428 Tm (- DiabetesPedigreeFunction) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 412 Tm (- GeneticRisk) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 396 Tm (- Age) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 370 Tm (The form uses widgets with predefined limits so the input stays within acceptable) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 354 Tm (ranges. If the selected gender is male, the pregnancies field is automatically set) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 338 Tm (to zero and disabled.) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 312 Tm (7.3 Result Dialog) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 294 Tm (After prediction, the application displays:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 278 Tm (- Predicted class) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 262 Tm (- Estimated diabetes probability) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 246 Tm (- Risk category) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 230 Tm (- Recommendation message) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 204 Tm (Risk bands:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 188 Tm (- Below 40 percent: Low Risk) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 172 Tm (- 40 to 69 percent: Moderate Risk) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 156 Tm (- 70 percent and above: High Risk) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 130 Tm (8. Machine Learning Workflow) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 108 Tm (8.1 Dataset) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 90 Tm (The model is trained using `data/diabetes.csv`. The expected target column is) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 74 Tm (`Outcome`.) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 14 0 R >>
+endobj
+14 0 obj
+<< /Length 2907 >>
+stream
+BT /F2 13 Tf 1 0 0 1 54 750 Tm (8.2 Preprocessing) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 732 Tm (The preprocessing pipeline is created in `src/preprocessing.py` and includes:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 716 Tm (- Median imputation for numeric features) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 700 Tm (- Standard scaling for numeric features) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 684 Tm (- Most frequent imputation for categorical features) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 668 Tm (- One-hot encoding for categorical features when needed) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 642 Tm (8.3 Candidate Models) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 624 Tm (The training script evaluates two classification algorithms:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 608 Tm (- Logistic Regression) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 592 Tm (- Random Forest Classifier) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 566 Tm (8.4 Model Selection) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 548 Tm (The script splits the data into train and test sets using stratification,) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 532 Tm (evaluates both candidate models with accuracy, and saves the best-performing) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 516 Tm (fitted pipeline to `models/best_model.joblib`.) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 490 Tm (8.5 Inference) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 472 Tm (During prediction:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 456 Tm (1. Inputs are validated against field constraints.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 440 Tm (2. A one-row pandas DataFrame is created.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 424 Tm (3. The saved pipeline predicts the class label.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 408 Tm (4. If available, `predict_proba` is used to compute the probability score.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 392 Tm (5. The UI translates the numeric result into a readable diabetes risk) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 376 Tm (assessment.) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 350 Tm (9. Module-Level Explanation) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 328 Tm (`app.py`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 310 Tm (- Builds the Streamlit interface) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 294 Tm (- Manages login state with `st.session_state`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 278 Tm (- Renders the health form) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 262 Tm (- Displays progress and result dialogs) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 246 Tm (- Provides a documentation page and PDF download) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 220 Tm (`src/config.py`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 202 Tm (- Resolves file paths from environment variables) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 186 Tm (- Defines dataset, model, and storage paths) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 170 Tm (- Keeps runtime configuration centralized) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 144 Tm (`src/preprocessing.py`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 126 Tm (- Loads the dataset) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 110 Tm (- Builds the `ColumnTransformer`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 94 Tm (- Applies imputation, scaling, and encoding) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 16 0 R >>
+endobj
+16 0 obj
+<< /Length 2955 >>
+stream
+BT /F2 13 Tf 1 0 0 1 54 750 Tm (`src/train_model.py`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 732 Tm (- Trains Logistic Regression and Random Forest pipelines) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 716 Tm (- Compares model accuracy) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 700 Tm (- Saves the best model artifact) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 674 Tm (`src/predict.py`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 656 Tm (- Loads the trained model from disk) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 640 Tm (- Validates form inputs) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 624 Tm (- Runs single-record prediction safely) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 608 Tm (- Raises user-friendly exceptions for invalid states) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 582 Tm (`src/user_store.py`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 564 Tm (- Ensures `data/users.csv` exists) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 548 Tm (- Creates new users) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 532 Tm (- Prevents duplicate names) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 516 Tm (- Updates the latest prediction for the logged-in user) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 490 Tm (10. Data Storage Design) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 468 Tm (The project uses CSV storage instead of a full relational database. This keeps the) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 452 Tm (application simple and easy to demonstrate.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 426 Tm (Current `users.csv` schema:) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 400 Tm (| Column | Description |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 386 Tm (| --- | --- |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 372 Tm (| `name` | Unique user identifier |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 358 Tm (| `pregnancies` | Number of pregnancies |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 344 Tm (| `glucose` | Plasma glucose value |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 330 Tm (| `blood_pressure` | Diastolic blood pressure |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 316 Tm (| `skin_thickness` | Skin fold thickness |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 302 Tm (| `insulin` | Serum insulin value |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 288 Tm (| `bmi` | Body mass index |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 274 Tm (| `diabetes_pedigree_function` | Family risk score |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 260 Tm (| `genetic_risk` | Encoded family history flag |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 246 Tm (| `age` | Age in years |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 232 Tm (| `prediction` | Latest predicted class |) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 218 Tm (| `probability` | Latest predicted probability |) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 194 Tm (11. Validation and Error Handling) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 172 Tm (The project includes checks for:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 156 Tm (- Missing model file) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 140 Tm (- Invalid input values) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 124 Tm (- Out-of-range numeric entries) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 108 Tm (- Dataset and storage file issues) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 92 Tm (- Prediction-time failures) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 76 Tm (- CSV read and write errors) Tj ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 18 0 R >>
+endobj
+18 0 obj
+<< /Length 2695 >>
+stream
+BT /F1 11 Tf 1 0 0 1 54 750 Tm (Typical user-facing messages include:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 734 Tm (- `Invalid input value for <field>.`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 718 Tm (- `<field> must be between min and max.`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 702 Tm (- `Model file not found.`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 686 Tm (- `Prediction failed. Please try again.`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 670 Tm (- `Unable to save prediction history.`) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 644 Tm (12. Execution Steps) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 622 Tm (12.1 Local Setup) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 604 Tm (----------------------------------------) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 590 Tm (python -m venv .venv) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 574 Tm (.venv\\Scripts\\activate) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 558 Tm (pip install -r requirements.txt) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 542 Tm (----------------------------------------) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 518 Tm (12.2 Train the Model) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 500 Tm (----------------------------------------) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 486 Tm (python -m src.train_model) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 470 Tm (----------------------------------------) Tj ET
+BT /F2 13 Tf 1 0 0 1 54 446 Tm (12.3 Run the Application) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 428 Tm (----------------------------------------) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 414 Tm (streamlit run app.py) Tj ET
+BT /F1 10 Tf 1 0 0 1 54 398 Tm (----------------------------------------) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 374 Tm (13. Deployment Notes) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 352 Tm (The project is prepared for deployment on:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 336 Tm (- Streamlit Cloud) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 320 Tm (- Render) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 294 Tm (Important deployment files:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 278 Tm (- `.streamlit/config.toml`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 262 Tm (- `requirements.txt`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 246 Tm (- `render.yaml`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 230 Tm (- `.env.example`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 204 Tm (Important runtime files that should be available:) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 188 Tm (- `models/best_model.joblib`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 172 Tm (- `data/diabetes.csv`) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 156 Tm (- `data/users.csv` or write access to create it) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 130 Tm (14. Strengths of the Project) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 108 Tm (- Clean and responsive user interface) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 92 Tm (- Simple end-to-end workflow from input to result) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 76 Tm (- Uses an actual machine learning pipeline rather than rule-based scoring) Tj ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 20 0 R >>
+endobj
+20 0 obj
+<< /Length 2319 >>
+stream
+BT /F1 11 Tf 1 0 0 1 54 750 Tm (- Modular source code for training, prediction, and storage) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 734 Tm (- Lightweight persistence suitable for academic demos) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 718 Tm (- Documentation and PDF support included inside the project) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 692 Tm (15. Current Limitations) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 670 Tm (- No password-based authentication) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 654 Tm (- CSV storage is not ideal for concurrent multi-user production use) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 638 Tm (- The model quality depends entirely on the dataset used for training) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 622 Tm (- The result is informational and not a medical diagnosis) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 606 Tm (- No advanced model explainability chart is currently shown) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 580 Tm (16. Future Enhancements) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 558 Tm (- Add secure authentication with password or email login) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 542 Tm (- Replace CSV storage with SQLite or PostgreSQL) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 526 Tm (- Show feature importance or explainability insights) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 510 Tm (- Add analytics dashboards for aggregate prediction trends) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 494 Tm (- Support multi-page admin reporting) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 478 Tm (- Add retraining controls from the UI for project demos) Tj ET
+BT /F2 16 Tf 1 0 0 1 54 452 Tm (17. Conclusion) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 430 Tm (DiabetesInsight is a compact and well-structured academic machine learning project) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 414 Tm (that demonstrates how health data can be transformed into a practical diabetes) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 398 Tm (risk prediction workflow. The project covers the full pipeline from data) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 382 Tm (preprocessing and model selection to user interaction, result presentation, and) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 366 Tm (deployment readiness.) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 340 Tm (With the addition of a dedicated in-app documentation page and downloadable PDF) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 324 Tm (report, the project is now easier to present, review, and submit for academic) Tj ET
+BT /F1 11 Tf 1 0 0 1 54 308 Tm (evaluation.) Tj ET
+endstream
+endobj
+xref
+0 21
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000164 00000 n 
+0000000234 00000 n 
+0000000309 00000 n 
+0000000445 00000 n 
+0000000879 00000 n 
+0000001015 00000 n 
+0000004460 00000 n 
+0000004597 00000 n 
+0000007504 00000 n 
+0000007642 00000 n 
+0000010250 00000 n 
+0000010388 00000 n 
+0000013348 00000 n 
+0000013486 00000 n 
+0000016494 00000 n 
+0000016632 00000 n 
+0000019380 00000 n 
+0000019518 00000 n 
+trailer << /Size 21 /Root 1 0 R >>
+startxref
+21890
+%%EOF

@@ -34,6 +34,9 @@ DI_FAVICON_SVG = """
 </svg>
 """
 DI_FAVICON_URI = f"data:image/svg+xml,{quote(DI_FAVICON_SVG)}"
+PROJECT_ROOT = Path(__file__).resolve().parent
+DOCUMENTATION_MD_PATH = PROJECT_ROOT / "docs" / "detailed_documentation.md"
+DOCUMENTATION_PDF_PATH = PROJECT_ROOT / "docs" / "DiabetesInsight_Detailed_Documentation.pdf"
 
 FIELD_GROUPS = {
     "Personal Profile": [
@@ -172,6 +175,7 @@ def _init_state() -> None:
         "form_values": _default_form_values(),
         "theme_name": "Light",
         "login_name_input": "",
+        "active_page": "Prediction Dashboard",
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -249,6 +253,24 @@ def _inject_global_styles() -> None:
         .metric-card {
             padding: 1rem 1.25rem;
             min-height: 120px;
+        }
+
+        .doc-meta-card {
+            padding: 1.4rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .doc-meta-card h3 {
+            margin-bottom: 0.35rem;
+        }
+
+        .doc-meta-card p {
+            margin: 0.3rem 0;
+        }
+
+        .doc-note {
+            font-size: 0.96rem;
+            color: var(--muted);
         }
 
         div[data-testid="column"] .metric-card {
@@ -678,6 +700,33 @@ def _render_theme_switcher() -> None:
         st.rerun()
 
 
+def _logout_user() -> None:
+    for key in ["logged_in", "user_name", "gender", "last_result", "show_result", "is_processing", "process_requested", "pending_input"]:
+        st.session_state[key] = False if key in {"logged_in", "show_result", "is_processing", "process_requested"} else None
+    st.session_state.user_name = ""
+    st.session_state.gender = None
+    st.session_state.last_result = None
+    st.session_state.pending_input = None
+    st.session_state.form_values = _default_form_values()
+    st.session_state.active_page = "Prediction Dashboard"
+    _set_status("Session ended.", "info")
+    st.rerun()
+
+
+def _load_documentation_markdown() -> str:
+    try:
+        return DOCUMENTATION_MD_PATH.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise RuntimeError(f"Unable to load documentation file '{DOCUMENTATION_MD_PATH.name}'.") from exc
+
+
+def _load_documentation_pdf() -> bytes:
+    try:
+        return DOCUMENTATION_PDF_PATH.read_bytes()
+    except OSError as exc:
+        raise RuntimeError(f"Unable to load PDF file '{DOCUMENTATION_PDF_PATH.name}'.") from exc
+
+
 def _show_login() -> None:
     theme_left, theme_mid, theme_right = st.columns([1.2, 1.2, 0.8])
     with theme_right:
@@ -725,6 +774,7 @@ def _show_login() -> None:
         st.session_state.logged_in = True
         st.session_state.user_name = name
         st.session_state.gender = gender
+        st.session_state.active_page = "Prediction Dashboard"
         _set_status("Login successful. You can now run a prediction.", "success")
         st.rerun()
 
@@ -930,6 +980,72 @@ def _show_result_dialog() -> None:
     _dialog()
 
 
+def _render_documentation_page() -> None:
+    left, mid, right = st.columns([4.3, 1.5, 1])
+    with left:
+        st.markdown(
+            """
+            <div class="hero-card">
+                <h1 style="margin-bottom:0.4rem;">Detailed Project Documentation</h1>
+                <p class="hero-copy" style="margin-bottom:0.35rem;">
+                    A complete project record for DiabetesInsight, including the objective, architecture,
+                    machine learning workflow, modules, storage design, deployment notes, and scope.
+                </p>
+                <p class="hero-copy" style="margin:0;">
+                    Prepared by <strong>Jai Akash</strong> | <strong>B.Tech AIDS</strong> | <strong>3rd Year</strong>
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with mid:
+        _render_theme_switcher()
+    with right:
+        if st.button("Logout", use_container_width=True):
+            _logout_user()
+
+    _show_status_banner()
+
+    action_col, meta_col = st.columns([1.2, 2.3])
+    with action_col:
+        try:
+            pdf_bytes = _load_documentation_pdf()
+        except RuntimeError as exc:
+            st.warning(str(exc))
+        else:
+            st.download_button(
+                "Download Project PDF",
+                data=pdf_bytes,
+                file_name=DOCUMENTATION_PDF_PATH.name,
+                mime="application/pdf",
+                use_container_width=True,
+                type="primary",
+            )
+        st.caption(f"PDF file: {DOCUMENTATION_PDF_PATH.name}")
+
+    with meta_col:
+        st.markdown(
+            """
+            <div class="section-card doc-meta-card">
+                <h3>Document Summary</h3>
+                <p><strong>Project:</strong> DiabetesInsight - Early Diabetes Risk Prediction System</p>
+                <p><strong>Prepared for:</strong> Academic project review and demonstration</p>
+                <p><strong>Coverage:</strong> Features, ML pipeline, code modules, data schema, deployment, and limitations</p>
+                <p class="doc-note">The full markdown source is stored in the local docs folder and rendered below inside the app.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    try:
+        documentation_text = _load_documentation_markdown()
+    except RuntimeError as exc:
+        st.error(str(exc))
+        return
+
+    st.markdown(documentation_text)
+
+
 def _main_app() -> None:
     model_ready, model_message = _model_status()
 
@@ -952,15 +1068,7 @@ def _main_app() -> None:
         _render_theme_switcher()
     with right:
         if st.button("Logout", use_container_width=True):
-            for key in ["logged_in", "user_name", "gender", "last_result", "show_result", "is_processing", "process_requested", "pending_input"]:
-                st.session_state[key] = False if key in {"logged_in", "show_result", "is_processing", "process_requested"} else None
-            st.session_state.user_name = ""
-            st.session_state.gender = None
-            st.session_state.last_result = None
-            st.session_state.pending_input = None
-            st.session_state.form_values = _default_form_values()
-            _set_status("Session ended.", "info")
-            st.rerun()
+            _logout_user()
 
     metric_cols = st.columns(3)
     with metric_cols[0]:
@@ -992,6 +1100,17 @@ storage_ready = _safe_prepare_storage()
 if not storage_ready:
     _show_status_banner()
 elif st.session_state.logged_in:
-    _main_app()
+    with st.sidebar:
+        st.markdown("## Navigation")
+        selected_page = st.radio(
+            "Open Page",
+            ["Prediction Dashboard", "Project Documentation"],
+            index=0 if st.session_state.active_page == "Prediction Dashboard" else 1,
+            key="active_page",
+        )
+    if selected_page == "Project Documentation":
+        _render_documentation_page()
+    else:
+        _main_app()
 else:
     _show_login()
