@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diabetes Insight - High Level Design</title>
+  <style>
+    @page { size: A4; margin: 1in 0.8in; }
+    :root { --ink:#111111; --muted:#555555; --accent:#1f4e79; --grid:#b9c2cc; --soft:#eef3f8; --soft-2:#f7f9fc; }
+    * { box-sizing: border-box; }
+    body { margin:0; color:var(--ink); font-family:"Times New Roman", Times, serif; font-size:12pt; line-height:1.5; background:#fff; }
+    .page-break { break-before: page; page-break-before: always; }
+    .cover { min-height:90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:1rem; }
+    .cover h1 { margin:0; font-size:28pt; letter-spacing:0.4px; }
+    .cover h2 { margin:0.8rem 0 0; font-size:18pt; font-weight:bold; color:var(--accent); }
+    .cover .meta { margin-top:2.2rem; font-size:13pt; }
+    h1,h2,h3,h4 { color:#000; margin-top:1rem; margin-bottom:0.45rem; }
+    h1 { font-size:18pt; border-bottom:1px solid #000; padding-bottom:0.2rem; }
+    h2 { font-size:15pt; } h3 { font-size:13pt; } h4 { font-size:12pt; }
+    p { margin:0.28rem 0 0.6rem; text-align:justify; }
+    ul,ol { margin-top:0.2rem; margin-bottom:0.8rem; padding-left:1.35rem; }
+    li { margin-bottom:0.22rem; text-align:justify; }
+    .toc { border:1px solid var(--grid); padding:1rem 1.2rem; background:var(--soft-2); }
+    .toc table, table { width:100%; border-collapse:collapse; }
+    th,td { border:1px solid #2e2e2e; padding:7px 8px; vertical-align:top; text-align:left; }
+    th { background:var(--soft); }
+    .small { font-size:10.8pt; }
+    .note { border-left:4px solid var(--accent); background:var(--soft-2); padding:0.75rem 0.9rem; margin:0.8rem 0; }
+    .figure { margin:0.9rem 0 1rem; page-break-inside:avoid; break-inside:avoid; }
+    .figure-title { margin:0 0 0.35rem; font-weight:bold; color:var(--accent); }
+    .diagram-frame { border:1px solid var(--grid); padding:0.55rem; background:#fff; }
+    svg { width:100%; height:auto; display:block; font-family:"Times New Roman", Times, serif; }
+    .shot-grid { display:grid; grid-template-columns:1fr; gap:1rem; }
+    .shot-grid img { width:100%; border:1px solid var(--grid); }
+    .muted { color:var(--muted); }
+    .no-break { page-break-inside:avoid; break-inside:avoid; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <h1>Diabetes Insight</h1>
+    <h2>High Level Design Document</h2>
+    <div class="meta">
+      <p><strong>Project Type:</strong> University-Level AI and Web Application Project</p>
+      <p><strong>Technology Stack:</strong> Streamlit, Python, scikit-learn, joblib, CSV Storage</p>
+      <p><strong>Document Style:</strong> Formal HLD aligned to the approved project template</p>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h1>Table of Contents</h1>
+    <div class="toc">
+      <table class="small">
+        <tr><th>Section</th><th>Title</th></tr>
+        <tr><td>1</td><td>Introduction</td></tr>
+        <tr><td>2</td><td>System Environment</td></tr>
+        <tr><td>3</td><td>Behavioral Description</td></tr>
+        <tr><td>4</td><td>Alternate Design Methods Considered</td></tr>
+        <tr><td>5</td><td>Process Model</td></tr>
+        <tr><td>6</td><td>Data Model</td></tr>
+        <tr><td>7</td><td>Prototype</td></tr>
+        <tr><td>8</td><td>Standards</td></tr>
+        <tr><td>9</td><td>Construction Strategy</td></tr>
+        <tr><td>10</td><td>Backup and Recovery Procedures</td></tr>
+        <tr><td>11</td><td>Design Constraints</td></tr>
+        <tr><td>12</td><td>Design Criteria</td></tr>
+        <tr><td>13</td><td>Reliability Requirements</td></tr>
+        <tr><td>14</td><td>Anticipated Changes</td></tr>
+        <tr><td>15</td><td>List of Reusable Components</td></tr>
+        <tr><td>16</td><td>List of Third Party Components</td></tr>
+        <tr><td>17</td><td>List of Time Critical and Periodic Functions</td></tr>
+        <tr><td>18</td><td>Cross References with Software Requirement Specification</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h1>1. Introduction</h1>
+    <h2>1.1 Purpose</h2>
+    <p>
+      The purpose of this High Level Design document is to define a clear architectural model for the
+      implementation of <strong>Diabetes Insight</strong>, a web-based diabetes risk prediction system built with
+      Streamlit and a pre-trained Random Forest model. This document bridges the gap between the Software
+      Requirements Specification and the actual implementation approach by showing how the major system
+      modules, data flow, user interaction, and supporting components fit together.
+    </p>
+    <p>
+      The HLD is intended to support university evaluation, technical review, implementation planning, and
+      future enhancement of the application. It provides a design view that is detailed enough for academic
+      assessment while remaining understandable for student developers and project supervisors.
+    </p>
+
+    <h2>1.2 Scope</h2>
+    <p>
+      The scope of this design covers the complete high-level solution for the Diabetes Insight application,
+      including the Streamlit presentation layer, user login workflow, gender-sensitive form behavior,
+      preprocessing and inference pipeline, result classification logic, CSV-based persistence, and exception
+      handling. The design assumes that the machine learning model has already been trained and stored as a
+      joblib artifact before runtime.
+    </p>
+    <p>
+      The document does not include low-level code design, algorithm training mathematics, or production-grade
+      deployment architecture. Instead, it focuses on the system-level organization needed for a functional,
+      maintainable, and presentation-ready academic project.
+    </p>
+
+    <h1>2. System Environment</h1>
+    <h2>2.1 System Input</h2>
+    <p>The system accepts two main categories of input:</p>
+    <ul>
+      <li><strong>User identification input:</strong> name and gender.</li>
+      <li><strong>Medical prediction input:</strong> pregnancies, glucose, blood pressure, skin thickness, insulin, BMI, diabetes pedigree function, and age.</li>
+    </ul>
+    <p>
+      The pregnancies field is dynamically controlled by the system. It remains editable for female users and
+      disabled or fixed to zero for male users. All input values are collected using Streamlit widgets and then
+      validated before prediction.
+    </p>
+
+    <h2>2.2 System Output</h2>
+    <p>The system produces both on-screen and file-based output:</p>
+    <ul>
+      <li><strong>On-screen output:</strong> validation messages, prediction probability, predicted class, risk level, and interpretation text.</li>
+      <li><strong>File-based output:</strong> CSV records containing login details, medical inputs, prediction results, and timestamps.</li>
+    </ul>
+  </section>
+
+  <section class="page-break">
+    <h1>3. Behavioral Description</h1>
+    <p>
+      The application behavior is event-driven. User actions in the interface trigger system functions that
+      validate data, invoke the trained model, and present results. The table below summarizes the key events.
+    </p>
+    <table class="small">
+      <tr><th>Event Name</th><th>Response To Event</th><th>Function</th></tr>
+      <tr><td>Application Launch</td><td>The system initializes the Streamlit UI, session state, and file dependencies.</td><td>Startup control</td></tr>
+      <tr><td>User Login</td><td>The system validates name and gender, then creates a session context.</td><td>Login management</td></tr>
+      <tr><td>Gender Selection</td><td>The system enables or disables the pregnancies field according to the selected gender.</td><td>Conditional UI control</td></tr>
+      <tr><td>Prediction Request</td><td>The system validates input, prepares the feature vector, and starts inference.</td><td>Prediction trigger</td></tr>
+      <tr><td>Model Inference Completion</td><td>The system receives class and probability output from the Random Forest model.</td><td>Prediction engine</td></tr>
+      <tr><td>Risk Mapping</td><td>The probability is mapped to Low, Moderate, or High risk bands.</td><td>Risk classification</td></tr>
+      <tr><td>Record Save</td><td>The system appends a timestamped entry to a CSV file.</td><td>Persistence</td></tr>
+      <tr><td>System Error</td><td>The system displays a user-safe error message and blocks unsafe processing.</td><td>Exception handling</td></tr>
+    </table>
+
+    <h1>4. Alternate Design Methods Considered</h1>
+    <h2>4.1 Design Methods Analysis</h2>
+    <p>
+      Three implementation strategies were considered during the design stage. The first was a traditional web
+      stack using a Python backend and relational database. This approach offered better scalability and stronger
+      separation between concerns, but it introduced unnecessary complexity for a university mini-project.
+    </p>
+    <p>
+      The second was a desktop GUI built with a native Python toolkit. While simple to run locally, it was less
+      suitable for demonstrating a modern AI web workflow. The final option was a Streamlit-based solution with
+      file-backed storage. This option was chosen because it aligns directly with the project requirements,
+      reduces infrastructure overhead, and supports rapid integration with machine learning components.
+    </p>
+
+    <h2>4.2 Basis on Which the Design Is Arrived</h2>
+    <p>The chosen design was evaluated using the following criteria:</p>
+    <ul>
+      <li>simplicity of development and deployment,</li>
+      <li>compatibility with Python-based machine learning workflows,</li>
+      <li>ease of demonstration during university review,</li>
+      <li>maintainability by student developers,</li>
+      <li>low cost and minimal dependency on external infrastructure.</li>
+    </ul>
+    <div class="note">
+      <strong>Selected approach:</strong> Streamlit + pre-trained Random Forest model + CSV persistence. This
+      option provides the best balance between academic value, ease of explanation, and implementation speed.
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h1>5. Process Model</h1>
+    <p>
+      The process model describes how data moves through the system from user interaction to final prediction,
+      display, and storage. The following diagrams present the system context, data flow, decomposition, and
+      object-oriented view at a high level.
+    </p>
+
+    <h2>5.1 Context Diagram</h2>
+    <div class="figure">
+      <p class="figure-title">Figure 1. System Context Diagram</p>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 920 420" aria-label="Context diagram">
+          <defs>
+            <marker id="arrowA" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#1f4e79"></path>
+            </marker>
+          </defs>
+          <rect x="340" y="130" width="240" height="120" rx="8" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="460" y="175" text-anchor="middle" font-size="24" font-weight="bold">Diabetes Insight</text>
+          <text x="460" y="205" text-anchor="middle" font-size="18">Prediction and Record System</text>
+          <rect x="40" y="145" width="180" height="90" rx="8" fill="#f8f8f8" stroke="#444" stroke-width="1.5"/>
+          <text x="130" y="185" text-anchor="middle" font-size="22" font-weight="bold">User</text>
+          <text x="130" y="212" text-anchor="middle" font-size="16">Login + Health Inputs</text>
+          <rect x="705" y="70" width="170" height="90" rx="8" fill="#f8f8f8" stroke="#444" stroke-width="1.5"/>
+          <text x="790" y="108" text-anchor="middle" font-size="22" font-weight="bold">Model File</text>
+          <text x="790" y="134" text-anchor="middle" font-size="16">best_model.joblib</text>
+          <rect x="705" y="250" width="170" height="90" rx="8" fill="#f8f8f8" stroke="#444" stroke-width="1.5"/>
+          <text x="790" y="288" text-anchor="middle" font-size="22" font-weight="bold">CSV Storage</text>
+          <text x="790" y="314" text-anchor="middle" font-size="16">users / predictions</text>
+          <line x1="220" y1="190" x2="340" y2="190" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowA)"/>
+          <line x1="340" y1="212" x2="220" y2="212" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowA)"/>
+          <text x="280" y="176" text-anchor="middle" font-size="16">Inputs</text>
+          <text x="280" y="235" text-anchor="middle" font-size="16">Prediction Result</text>
+          <line x1="580" y1="160" x2="705" y2="115" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowA)"/>
+          <text x="640" y="122" text-anchor="middle" font-size="16">Load Model</text>
+          <line x1="580" y1="220" x2="705" y2="295" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowA)"/>
+          <text x="642" y="270" text-anchor="middle" font-size="16">Save Records</text>
+        </svg>
+      </div>
+    </div>
+
+    <h2>5.2 Data Flow Diagrams</h2>
+    <div class="figure">
+      <p class="figure-title">Figure 2. Level-0 Data Flow Diagram</p>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 980 530" aria-label="Data flow diagram">
+          <defs>
+            <marker id="arrowB" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#1f4e79"></path>
+            </marker>
+          </defs>
+          <rect x="30" y="210" width="150" height="90" rx="8" fill="#f8f8f8" stroke="#444" stroke-width="1.5"/>
+          <text x="105" y="248" text-anchor="middle" font-size="22" font-weight="bold">User</text>
+          <text x="105" y="274" text-anchor="middle" font-size="16">Inputs and Requests</text>
+          <rect x="230" y="70" width="190" height="80" rx="8" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="325" y="105" text-anchor="middle" font-size="20" font-weight="bold">1. Login and Session</text>
+          <text x="325" y="130" text-anchor="middle" font-size="15">name, gender, session state</text>
+          <rect x="230" y="190" width="190" height="80" rx="8" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="325" y="224" text-anchor="middle" font-size="20" font-weight="bold">2. Input Capture</text>
+          <text x="325" y="249" text-anchor="middle" font-size="15">medical parameter form</text>
+          <rect x="230" y="310" width="190" height="80" rx="8" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="325" y="344" text-anchor="middle" font-size="20" font-weight="bold">3. Prediction</text>
+          <text x="325" y="369" text-anchor="middle" font-size="15">validation and inference</text>
+          <rect x="520" y="125" width="190" height="80" rx="8" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="615" y="160" text-anchor="middle" font-size="20" font-weight="bold">4. Risk Classification</text>
+          <text x="615" y="185" text-anchor="middle" font-size="15">Low / Moderate / High</text>
+          <rect x="520" y="280" width="190" height="80" rx="8" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="615" y="315" text-anchor="middle" font-size="20" font-weight="bold">5. Display and Save</text>
+          <text x="615" y="340" text-anchor="middle" font-size="15">result view and CSV append</text>
+          <rect x="790" y="90" width="150" height="70" rx="8" fill="#f8f8f8" stroke="#444" stroke-width="1.5"/>
+          <text x="865" y="130" text-anchor="middle" font-size="18" font-weight="bold">Model Store</text>
+          <rect x="790" y="320" width="150" height="70" rx="8" fill="#f8f8f8" stroke="#444" stroke-width="1.5"/>
+          <text x="865" y="360" text-anchor="middle" font-size="18" font-weight="bold">CSV Store</text>
+          <line x1="180" y1="255" x2="230" y2="255" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+          <line x1="325" y1="150" x2="325" y2="190" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+          <line x1="325" y1="270" x2="325" y2="310" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+          <line x1="420" y1="350" x2="520" y2="185" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+          <line x1="615" y1="205" x2="615" y2="280" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+          <line x1="710" y1="150" x2="790" y2="125" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+          <line x1="710" y1="320" x2="790" y2="355" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+          <line x1="615" y1="360" x2="180" y2="360" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowB)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>5.3 Functional Decomposition Diagram</h2>
+    <div class="figure">
+      <p class="figure-title">Figure 3. Functional Decomposition</p>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 980 580" aria-label="Functional decomposition diagram">
+          <line x1="490" y1="75" x2="490" y2="120" stroke="#1f4e79" stroke-width="2"/>
+          <rect x="360" y="25" width="260" height="55" rx="7" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="490" y="58" text-anchor="middle" font-size="22" font-weight="bold">Diabetes Insight</text>
+          <line x1="130" y1="120" x2="850" y2="120" stroke="#1f4e79" stroke-width="2"/>
+          <line x1="130" y1="120" x2="130" y2="155" stroke="#1f4e79" stroke-width="2"/>
+          <line x1="310" y1="120" x2="310" y2="155" stroke="#1f4e79" stroke-width="2"/>
+          <line x1="490" y1="120" x2="490" y2="155" stroke="#1f4e79" stroke-width="2"/>
+          <line x1="670" y1="120" x2="670" y2="155" stroke="#1f4e79" stroke-width="2"/>
+          <line x1="850" y1="120" x2="850" y2="155" stroke="#1f4e79" stroke-width="2"/>
+          <rect x="40" y="155" width="180" height="70" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="130" y="186" text-anchor="middle" font-size="18" font-weight="bold">User Interaction</text>
+          <text x="130" y="209" text-anchor="middle" font-size="14">Login page, forms, result view</text>
+          <rect x="220" y="155" width="180" height="70" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="310" y="186" text-anchor="middle" font-size="18" font-weight="bold">Validation</text>
+          <text x="310" y="209" text-anchor="middle" font-size="14">Required, type, range checks</text>
+          <rect x="400" y="155" width="180" height="70" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="490" y="186" text-anchor="middle" font-size="18" font-weight="bold">Prediction Engine</text>
+          <text x="490" y="209" text-anchor="middle" font-size="14">Model loading and inference</text>
+          <rect x="580" y="155" width="180" height="70" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="670" y="186" text-anchor="middle" font-size="18" font-weight="bold">Risk Logic</text>
+          <text x="670" y="209" text-anchor="middle" font-size="14">Probability to category mapping</text>
+          <rect x="760" y="155" width="180" height="70" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="850" y="186" text-anchor="middle" font-size="18" font-weight="bold">Persistence</text>
+          <text x="850" y="209" text-anchor="middle" font-size="14">CSV creation and record append</text>
+          <rect x="90" y="305" width="210" height="150" rx="7" fill="#ffffff" stroke="#777" stroke-width="1.2"/>
+          <text x="195" y="332" text-anchor="middle" font-size="17" font-weight="bold">User Interaction Subfunctions</text>
+          <text x="110" y="365" font-size="14">• Login screen</text>
+          <text x="110" y="392" font-size="14">• Gender-aware input form</text>
+          <text x="110" y="419" font-size="14">• Result display</text>
+          <rect x="385" y="305" width="210" height="150" rx="7" fill="#ffffff" stroke="#777" stroke-width="1.2"/>
+          <text x="490" y="332" text-anchor="middle" font-size="17" font-weight="bold">Prediction Subfunctions</text>
+          <text x="405" y="365" font-size="14">• Feature ordering</text>
+          <text x="405" y="392" font-size="14">• Joblib model load</text>
+          <text x="405" y="419" font-size="14">• predict / predict_proba</text>
+          <rect x="680" y="305" width="210" height="150" rx="7" fill="#ffffff" stroke="#777" stroke-width="1.2"/>
+          <text x="785" y="332" text-anchor="middle" font-size="17" font-weight="bold">Persistence Subfunctions</text>
+          <text x="700" y="365" font-size="14">• Create CSV if missing</text>
+          <text x="700" y="392" font-size="14">• Add timestamp</text>
+          <text x="700" y="419" font-size="14">• Append result safely</text>
+        </svg>
+      </div>
+    </div>
+
+    <h3>5.3.1 Object Oriented Design</h3>
+    <p>
+      The implementation may remain function-oriented, but the logical design can still be described with
+      object-oriented responsibilities. An <em>AppController</em> coordinates user flow, a
+      <em>SessionManager</em> holds login context, an <em>InputValidator</em> checks the form, a
+      <em>PredictionService</em> handles model loading and inference, a <em>RiskClassifier</em> maps the probability
+      to risk labels, and a <em>CSVRepository</em> manages file persistence. This logical breakdown improves
+      maintainability even if the final code structure is lightweight.
+    </p>
+
+    <div class="figure">
+      <p class="figure-title">Figure 4. Logical Component Interaction</p>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 920 300" aria-label="Object-oriented view">
+          <defs>
+            <marker id="arrowC" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#1f4e79"></path>
+            </marker>
+          </defs>
+          <rect x="35" y="110" width="160" height="65" rx="7" fill="#eef3f8" stroke="#1f4e79" stroke-width="1.8"/>
+          <text x="115" y="147" text-anchor="middle" font-size="18" font-weight="bold">AppController</text>
+          <rect x="250" y="25" width="160" height="65" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="330" y="63" text-anchor="middle" font-size="18" font-weight="bold">SessionManager</text>
+          <rect x="250" y="110" width="160" height="65" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="330" y="148" text-anchor="middle" font-size="18" font-weight="bold">InputValidator</text>
+          <rect x="250" y="195" width="160" height="65" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="330" y="233" text-anchor="middle" font-size="18" font-weight="bold">ResultFormatter</text>
+          <rect x="515" y="68" width="170" height="65" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="600" y="106" text-anchor="middle" font-size="18" font-weight="bold">PredictionService</text>
+          <rect x="515" y="170" width="170" height="65" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="600" y="208" text-anchor="middle" font-size="18" font-weight="bold">RiskClassifier</text>
+          <rect x="740" y="68" width="145" height="65" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="812" y="106" text-anchor="middle" font-size="18" font-weight="bold">Model File</text>
+          <rect x="740" y="170" width="145" height="65" rx="7" fill="#f7f9fc" stroke="#444" stroke-width="1.5"/>
+          <text x="812" y="208" text-anchor="middle" font-size="18" font-weight="bold">CSVRepository</text>
+          <line x1="195" y1="143" x2="250" y2="58" stroke="#1f4e79" stroke-width="2" marker-end="url(#arrowC)"/>
+          <line x1="195" y1="143" x2="250" y2="143" stroke="#1f4e79" stroke-width="2" marker-end="url(#arrowC)"/>
+          <line x1="195" y1="143" x2="250" y2="228" stroke="#1f4e79" stroke-width="2" marker-end="url(#arrowC)"/>
+          <line x1="410" y1="143" x2="515" y2="101" stroke="#1f4e79" stroke-width="2" marker-end="url(#arrowC)"/>
+          <line x1="410" y1="143" x2="515" y2="203" stroke="#1f4e79" stroke-width="2" marker-end="url(#arrowC)"/>
+          <line x1="685" y1="101" x2="740" y2="101" stroke="#1f4e79" stroke-width="2" marker-end="url(#arrowC)"/>
+          <line x1="685" y1="203" x2="740" y2="203" stroke="#1f4e79" stroke-width="2" marker-end="url(#arrowC)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h1>6. Data Model</h1>
+    <h2>6.1 Entity Relationship Diagram</h2>
+    <div class="figure">
+      <p class="figure-title">Figure 5. Logical ER Diagram</p>
+      <div class="diagram-frame">
+        <svg viewBox="0 0 980 430" aria-label="Entity relationship diagram">
+          <rect x="60" y="85" width="250" height="235" fill="#f7f9fc" stroke="#1f4e79" stroke-width="2"/>
+          <text x="185" y="118" text-anchor="middle" font-size="22" font-weight="bold">USER</text>
+          <line x1="80" y1="130" x2="290" y2="130" stroke="#1f4e79" stroke-width="1.5"/>
+          <text x="88" y="160" font-size="16">PK user_name</text>
+          <text x="88" y="188" font-size="16">gender</text>
+          <text x="88" y="216" font-size="16">login_timestamp</text>
+          <rect x="365" y="55" width="280" height="295" fill="#eef3f8" stroke="#1f4e79" stroke-width="2"/>
+          <text x="505" y="88" text-anchor="middle" font-size="22" font-weight="bold">PREDICTION_RECORD</text>
+          <line x1="385" y1="102" x2="625" y2="102" stroke="#1f4e79" stroke-width="1.5"/>
+          <text x="393" y="132" font-size="16">PK record_id</text>
+          <text x="393" y="160" font-size="16">FK user_name</text>
+          <text x="393" y="188" font-size="16">predicted_class</text>
+          <text x="393" y="216" font-size="16">probability</text>
+          <text x="393" y="244" font-size="16">risk_level</text>
+          <text x="393" y="272" font-size="16">timestamp</text>
+          <text x="393" y="300" font-size="16">all medical input values</text>
+          <rect x="710" y="100" width="210" height="205" fill="#f7f9fc" stroke="#1f4e79" stroke-width="2"/>
+          <text x="815" y="132" text-anchor="middle" font-size="22" font-weight="bold">MODEL_METADATA</text>
+          <line x1="730" y1="146" x2="900" y2="146" stroke="#1f4e79" stroke-width="1.5"/>
+          <text x="738" y="176" font-size="16">model_path</text>
+          <text x="738" y="204" font-size="16">model_type</text>
+          <text x="738" y="232" font-size="16">version</text>
+          <text x="738" y="260" font-size="16">last_loaded_time</text>
+          <line x1="310" y1="200" x2="365" y2="200" stroke="#1f4e79" stroke-width="2.5"/>
+          <line x1="645" y1="200" x2="710" y2="200" stroke="#1f4e79" stroke-width="2.5"/>
+          <text x="338" y="190" text-anchor="middle" font-size="16">1 : many</text>
+          <text x="677" y="190" text-anchor="middle" font-size="16">uses</text>
+        </svg>
+      </div>
+    </div>
+    <h2>6.2 Entity, Attribute and Their Relationships</h2>
+    <p>
+      The logical data model contains three principal entities. The <strong>User</strong> entity holds simple login
+      information such as name and gender. The <strong>Prediction Record</strong> entity stores the health input vector,
+      the predicted class, the probability score, the derived risk level, and the timestamp of each prediction.
+      The <strong>Model Metadata</strong> entity represents information about the currently loaded model artifact and is
+      useful for traceability during academic review.
+    </p>
+
+    <h2>6.3 Data Sizing and Performance</h2>
+    <p>
+      CSV storage is intentionally lightweight. The design assumes small to moderate academic usage, typically from
+      tens to a few thousand rows. At this scale, append operations remain efficient, and the file size is still
+      manageable without indexing or database optimization. Model inference occurs for a single record at a time,
+      so latency remains low on a standard student laptop.
+    </p>
+
+    <h2>6.4 Processing Specification</h2>
+    <ol>
+      <li>User login data is captured and stored in session state.</li>
+      <li>Medical input is collected through the web form and validated.</li>
+      <li>Gender-based pregnancies logic is applied before model inference.</li>
+      <li>The feature vector is arranged in the exact order expected by the trained model.</li>
+      <li>The model is loaded using joblib and used to compute the class and probability.</li>
+      <li>The probability is classified as Low, Moderate, or High risk.</li>
+      <li>The final result is displayed and appended to the CSV record store.</li>
+    </ol>
+
+    <h2>6.5 Exception, Signal and Error Handling</h2>
+    <table class="small">
+      <tr><th>Condition</th><th>Handling Strategy</th></tr>
+      <tr><td>Missing name or gender</td><td>Display validation error and prevent access to the prediction form.</td></tr>
+      <tr><td>Invalid numeric input</td><td>Reject submission and request corrected values.</td></tr>
+      <tr><td>Pregnancies entered for male user</td><td>Ignore manual entry and force the value to a fixed default.</td></tr>
+      <tr><td>Missing or corrupted model file</td><td>Show a system-safe error message and stop inference.</td></tr>
+      <tr><td>CSV creation or append failure</td><td>Warn the user, log the problem if possible, and keep the UI stable.</td></tr>
+      <tr><td>Unexpected runtime exception</td><td>Handle gracefully and avoid application crash or misleading result display.</td></tr>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h1>7. Prototype</h1>
+    <h2>7.1 Scope</h2>
+    <p>
+      The prototype covers the complete user-facing flow required for the project: login, medical data entry,
+      prediction, result display, and record storage. It demonstrates the interaction between the Streamlit UI and
+      the trained Random Forest model in a way that is suitable for university evaluation.
+    </p>
+
+    <h2>7.2 Objective</h2>
+    <p>
+      The objective of the prototype is to validate usability, confirm successful integration of the machine
+      learning pipeline, and show that the system can guide a user from raw health input to an understandable risk
+      assessment. It also demonstrates the use of a lightweight persistence mechanism without requiring a database.
+    </p>
+
+    <h2>7.3 Observations</h2>
+    <p>
+      The prototype supports a clean and linear workflow. The conditional pregnancies control improves correctness,
+      model integration remains straightforward due to consistent feature mapping, and the UI is simple enough for
+      non-technical project evaluators to understand during demonstration.
+    </p>
+
+    <h2>7.4 Conclusion</h2>
+    <p>
+      The prototype is sufficient for academic demonstration and clearly shows how AI prediction, web interface
+      design, and lightweight data persistence can be combined in a practical healthcare-themed student project.
+    </p>
+
+    <div class="figure">
+      <p class="figure-title">Prototype Screens</p>
+      <div class="shot-grid">
+        <div class="no-break">
+          <img src="Screenshots/Login_page.png" alt="Login page screenshot" />
+          <p class="muted">Figure 6. Login page with name and gender capture.</p>
+        </div>
+        <div class="no-break">
+          <img src="Screenshots/Prediction_page.png" alt="Prediction page screenshot" />
+          <p class="muted">Figure 7. Prediction page with structured medical input controls.</p>
+        </div>
+        <div class="no-break">
+          <img src="Screenshots/Result _page.png" alt="Result page screenshot" />
+          <p class="muted">Figure 8. Result page showing prediction output and risk interpretation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h1>8. Standards</h1>
+    <h2>8.1 External Interface Standards</h2>
+    <table class="small">
+      <tr><th>Area</th><th>Applied Standard or Convention</th></tr>
+      <tr><td>User Interface</td><td>Streamlit component-based web interface</td></tr>
+      <tr><td>Programming Language</td><td>Python</td></tr>
+      <tr><td>Model Serialization</td><td>joblib</td></tr>
+      <tr><td>Data Storage</td><td>CSV with fixed column headers</td></tr>
+      <tr><td>Prediction Engine</td><td>scikit-learn compatible Random Forest model</td></tr>
+      <tr><td>Timestamping</td><td>Standard date-time text representation for records</td></tr>
+      <tr><td>Documentation Style</td><td>IEEE-inspired academic documentation format</td></tr>
+    </table>
+
+    <h1>9. Construction Strategy</h1>
+    <p>
+      The construction strategy follows a make-buy-reuse approach. Project-specific business logic such as
+      thresholding, session flow, and conditional pregnancies handling is developed within the project, while
+      established third-party libraries are used for UI rendering, model loading, and tabular data operations.
+    </p>
+    <table class="small">
+      <tr><th>Sl. No</th><th>Module / Function</th><th>Buy / Re-use</th><th>Verification / Validation</th><th>Remarks</th></tr>
+      <tr><td>1</td><td>Streamlit UI framework</td><td>Buy</td><td>Verify page rendering and form interaction</td><td>Presentation layer</td></tr>
+      <tr><td>2</td><td>Random Forest model runtime</td><td>Buy / Re-use</td><td>Check prediction compatibility with feature schema</td><td>Pre-trained model artifact</td></tr>
+      <tr><td>3</td><td>joblib model loading</td><td>Buy</td><td>Confirm artifact can be loaded without error</td><td>Inference dependency</td></tr>
+      <tr><td>4</td><td>CSV persistence utilities</td><td>Buy / Re-use</td><td>Validate file creation and append logic</td><td>Storage support</td></tr>
+      <tr><td>5</td><td>Risk classification logic</td><td>Make</td><td>Compare output against expected thresholds</td><td>Project-specific business logic</td></tr>
+      <tr><td>6</td><td>Gender-aware field handling</td><td>Make</td><td>UI behavior test for male and female flows</td><td>Mandatory project rule</td></tr>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h1>10. Backup and Recovery Procedures</h1>
+    <p>
+      Because the system relies on a model artifact and CSV files rather than a database, backup and recovery are
+      file-centered. The recommended procedure is to maintain a protected backup copy of the joblib model and a
+      periodic backup of CSV records. If the model file becomes unavailable, the application should not attempt
+      prediction until the correct artifact is restored. If CSV files are missing, the system may recreate the file
+      structure, but historical records can only be recovered from backup copies.
+    </p>
+
+    <h1>11. Design Constraints</h1>
+    <ul>
+      <li>The application must be built with Streamlit.</li>
+      <li>The model must be pre-trained and loaded with joblib at runtime.</li>
+      <li>Persistent storage must be CSV-based and not database-driven.</li>
+      <li>The login process must remain simple and rely on name plus gender.</li>
+      <li>The pregnancies field must be disabled for male users.</li>
+      <li>The project is intended for educational use and not clinical deployment.</li>
+    </ul>
+
+    <h1>12. Design Criteria</h1>
+    <p>The design is guided by the following criteria:</p>
+    <ul>
+      <li><strong>Simplicity:</strong> the system should be easy to explain and demonstrate.</li>
+      <li><strong>Functional completeness:</strong> all required SRS features must be reflected in the design.</li>
+      <li><strong>Modularity:</strong> UI, validation, inference, and storage should remain separable.</li>
+      <li><strong>Maintainability:</strong> future updates such as new thresholds or fields should be straightforward.</li>
+      <li><strong>Responsiveness:</strong> prediction should complete fast enough for interactive use.</li>
+    </ul>
+
+    <h1>13. Reliability Requirements</h1>
+    <p>
+      The high-level design supports reliability through validation-before-inference, deterministic feature
+      ordering, safe model loading, and controlled persistence behavior. The same valid inputs should produce the
+      same outputs as long as the deployed model version remains unchanged. Error conditions must be surfaced as
+      understandable messages rather than silent failures or application crashes.
+    </p>
+
+    <h1>14. Anticipated Changes</h1>
+    <ul>
+      <li>migration from CSV storage to a relational database,</li>
+      <li>support for stronger user authentication,</li>
+      <li>multiple model comparison and explainability features,</li>
+      <li>additional charts, dashboards, and downloadable reports,</li>
+      <li>cloud deployment and multi-user access control.</li>
+    </ul>
+  </section>
+
+  <section class="page-break">
+    <h1>15. List of Reusable Components</h1>
+    <p>The following project components are reusable across similar academic applications:</p>
+    <ul>
+      <li>input validation helpers,</li>
+      <li>session-state management logic,</li>
+      <li>CSV creation and append functions,</li>
+      <li>result formatting utilities,</li>
+      <li>risk threshold configuration constants,</li>
+      <li>single-record prediction wrapper functions.</li>
+    </ul>
+
+    <h1>16. List of Third Party Components</h1>
+    <table class="small">
+      <tr><th>Sl. No</th><th>Component</th><th>Category</th><th>Purpose</th></tr>
+      <tr><td>1</td><td>Streamlit</td><td>Third-party framework</td><td>Web interface development</td></tr>
+      <tr><td>2</td><td>scikit-learn</td><td>Third-party ML library</td><td>Random Forest model implementation</td></tr>
+      <tr><td>3</td><td>joblib</td><td>Third-party utility</td><td>Model serialization and loading</td></tr>
+      <tr><td>4</td><td>pandas</td><td>Third-party library</td><td>Tabular data and CSV handling</td></tr>
+      <tr><td>5</td><td>NumPy</td><td>Third-party library</td><td>Numeric data representation where required</td></tr>
+    </table>
+
+    <h1>17. List of Time Critical and Periodic Functions</h1>
+    <table class="small">
+      <tr><th>Function</th><th>Type</th><th>Description</th></tr>
+      <tr><td>User input validation</td><td>Time critical</td><td>Must complete immediately at submission time.</td></tr>
+      <tr><td>Model loading</td><td>Time sensitive</td><td>Should occur quickly or be cached to reduce latency.</td></tr>
+      <tr><td>Prediction inference</td><td>Time critical</td><td>Core interactive response must be returned in seconds.</td></tr>
+      <tr><td>Result display</td><td>Time critical</td><td>Should appear immediately after inference.</td></tr>
+      <tr><td>CSV write operation</td><td>Time sensitive</td><td>Must complete promptly after result generation.</td></tr>
+      <tr><td>Backup of records</td><td>Periodic</td><td>Can be performed outside the active user flow.</td></tr>
+    </table>
+
+    <h1>18. Cross References with Software Requirement Specification</h1>
+    <p>
+      The HLD directly supports the SRS. Login requirements are mapped to the session and UI modules, input
+      requirements are mapped to validation and form-handling logic, prediction requirements are mapped to the
+      inference service, and record-keeping requirements are mapped to the CSV repository component. Quality
+      characteristics such as usability, reliability, maintainability, portability, and efficiency are addressed by
+      the design choices summarized below.
+    </p>
+    <table class="small">
+      <tr><th>SN</th><th>Product Quality Characteristic</th><th>HLD Section</th><th>Remarks</th></tr>
+      <tr><td>1</td><td>Functionality, suitability, accuracy, compliance, interoperability, security</td><td>3, 5, 6, 8, 9, 11</td><td>Covered by architecture, process model, and constraints</td></tr>
+      <tr><td>2</td><td>Usability</td><td>2, 3, 7, 12</td><td>Supported by clear UI flow and prototype design</td></tr>
+      <tr><td>3</td><td>Reliability</td><td>6, 10, 13</td><td>Handled through validation, error control, and recovery planning</td></tr>
+      <tr><td>4</td><td>Portability</td><td>2, 8, 16</td><td>Python and Streamlit enable local academic deployment</td></tr>
+      <tr><td>5</td><td>Maintainability</td><td>5, 9, 14, 15</td><td>Supported by modular structure and reusable components</td></tr>
+      <tr><td>6</td><td>Efficiency</td><td>6, 17</td><td>Single-record inference and lightweight storage design</td></tr>
+    </table>
+
+    <div class="note">
+      <strong>Conclusion:</strong> The selected design provides a clean, modular, and academically appropriate
+      implementation structure for Diabetes Insight. It is strong enough for university review while remaining
+      practical for student development and future extension.
+    </div>
+  </section>
+</body>
+</html>
